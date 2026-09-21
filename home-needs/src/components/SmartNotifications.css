@@ -1,0 +1,164 @@
+/* Smart Notifications */
+
+.notifications-page {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.notifications-title {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.notifications-title h1 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.notifications-title p {
+  color: #607d8b;
+  font-size: 16px;
+}
+
+
+/* Summary */
+
+.notification-summary {
+  width: 100%;
+  max-width: none;
+  margin: 0 0 30px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.summary-card {
+  min-height: 105px;
+  background: white;
+  padding: 22px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.summary-card > span {
+  font-size: 30px;
+}
+
+.summary-card strong {
+  font-size: 23px;
+}
+
+.summary-card p {
+  color: #607d8b;
+  font-size: 14px;
+  margin-top: 3px;
+}
+
+
+/* Notification List */
+
+.notifications-list {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.notification-card {
+  width: 100%;
+  min-height: 95px;
+  background: white;
+  padding: 22px 28px;
+  margin-bottom: 15px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  border-left: 5px solid #4caf50;
+}
+
+.notification-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 12px;
+  background: #fffdf7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-content h2 {
+  font-size: 18px;
+  margin: 0 0 5px;
+}
+
+.notification-content p {
+  color: #607d8b;
+  font-size: 14px;
+  margin: 0;
+}
+
+
+/* Notification Type */
+
+.notification-type {
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.notification-type.urgent {
+  background: #ffebee;
+  color: #e53935;
+}
+
+.notification-type.reminder {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.notification-type.expiry {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+  .notification-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .notification-card {
+    align-items: flex-start;
+  }
+
+  .notification-type {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 500px) {
+
+  .notification-card {
+    flex-wrap: wrap;
+  }
+
+  .notification-type {
+    margin-left: 0;
+  }
+}

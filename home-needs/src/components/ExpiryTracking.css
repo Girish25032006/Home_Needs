@@ -1,0 +1,212 @@
+/* Expiry Tracking */
+
+.expiry-tracking {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.expiry-tracking .page-title {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.expiry-tracking .page-title h1 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.expiry-tracking .page-title p {
+  color: #607d8b;
+  font-size: 16px;
+}
+
+
+/* Summary */
+
+.expiry-summary {
+  width: 100%;
+  max-width: none;
+  margin: 0 0 35px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.expiry-summary-card {
+  min-height: 105px;
+  background: white;
+  padding: 22px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-left: 5px solid #4caf50;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.expiry-summary-card:nth-child(1),
+.expiry-summary-card:nth-child(2) {
+  border-left-color: #ff9800;
+}
+
+.expiry-summary-card > span {
+  font-size: 32px;
+}
+
+.expiry-summary-card h3 {
+  font-size: 14px;
+  color: #607d8b;
+  margin: 0 0 5px;
+}
+
+.expiry-summary-card strong {
+  font-size: 23px;
+}
+
+
+/* Expiry Section */
+
+.expiry-section {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.expiry-section h2 {
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+
+
+/* Expiry Cards */
+
+.expiry-card {
+  width: 100%;
+  min-height: 100px;
+  background: white;
+  padding: 22px 28px;
+  margin-bottom: 14px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-left: 5px solid #ff9800;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.expiry-product {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.expiry-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 12px;
+  background: #fffdf7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  flex-shrink: 0;
+}
+
+.expiry-product h3 {
+  margin: 0 0 5px;
+  font-size: 18px;
+}
+
+.expiry-product p {
+  color: #607d8b;
+  font-size: 14px;
+  margin: 0;
+}
+
+
+/* Expiry Date */
+
+.expiry-date {
+  text-align: right;
+  min-width: 120px;
+}
+
+.expiry-date span {
+  display: block;
+  color: #607d8b;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.expiry-date strong {
+  color: #4caf50;
+  font-size: 18px;
+}
+
+.expiry-date.warning strong {
+  color: #ff9800;
+}
+
+.expiry-date.danger strong {
+  color: #e53935;
+}
+
+
+/* Smart Suggestion */
+
+.expiry-suggestion {
+  width: 100%;
+  max-width: none;
+  margin: 30px 0 0;
+  padding: 25px;
+  background: #fffdf7;
+  border: 2px solid #ff9800;
+  border-radius: 18px;
+}
+
+.expiry-suggestion h2 {
+  font-size: 20px;
+  margin: 0 0 10px;
+}
+
+.expiry-suggestion p {
+  color: #607d8b;
+  line-height: 1.6;
+  margin: 0 0 18px;
+}
+
+.expiry-suggestion button {
+  border: none;
+  background: #4caf50;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.expiry-suggestion button:hover {
+  opacity: 0.9;
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+  .expiry-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .expiry-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .expiry-date {
+    text-align: left;
+  }
+}

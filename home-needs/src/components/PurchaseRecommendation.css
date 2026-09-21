@@ -1,0 +1,224 @@
+/* Purchase Recommendation */
+
+.purchase-recommendation {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.purchase-recommendation .page-title {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.purchase-recommendation .page-title h1 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.purchase-recommendation .page-title p {
+  color: #607d8b;
+  font-size: 16px;
+}
+
+
+/* Summary */
+
+.recommendation-summary {
+  width: 100%;
+  max-width: none;
+  margin: 0 0 35px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.recommendation-summary-card {
+  min-height: 105px;
+  background: white;
+  padding: 22px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-left: 5px solid #4caf50;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.recommendation-summary-card:nth-child(2) {
+  border-left-color: #4caf50;
+}
+
+.recommendation-summary-card:nth-child(3) {
+  border-left-color: #ff9800;
+}
+
+.recommendation-summary-card > span {
+  font-size: 32px;
+}
+
+.recommendation-summary-card h3 {
+  font-size: 14px;
+  color: #607d8b;
+  margin: 0 0 5px;
+}
+
+.recommendation-summary-card strong {
+  font-size: 23px;
+}
+
+
+/* Recommendation Section */
+
+.recommendation-section {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.recommendation-section h2 {
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+
+
+/* Recommendation Cards */
+
+.recommendation-card {
+  width: 100%;
+  min-height: 105px;
+  background: white;
+  padding: 22px 28px;
+  margin-bottom: 15px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-left: 5px solid #ff9800;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.recommendation-product {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.recommendation-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 12px;
+  background: #fffdf7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  flex-shrink: 0;
+}
+
+.recommendation-product h3 {
+  margin: 0 0 5px;
+  font-size: 18px;
+}
+
+.recommendation-product p {
+  color: #607d8b;
+  font-size: 14px;
+  margin: 0 0 4px;
+}
+
+.recommendation-product small {
+  color: #ff9800;
+  font-weight: 600;
+}
+
+
+/* Recommended Quantity */
+
+.recommendation-quantity {
+  text-align: center;
+  min-width: 140px;
+}
+
+.recommendation-quantity span {
+  display: block;
+  color: #607d8b;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.recommendation-quantity strong {
+  color: #4caf50;
+  font-size: 18px;
+}
+
+
+/* Add Button */
+
+.recommendation-card button {
+  border: none;
+  background: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  min-width: 80px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.recommendation-card button:hover {
+  opacity: 0.9;
+}
+
+
+/* Information Note */
+
+.recommendation-note {
+  width: 100%;
+  max-width: none;
+  margin: 30px 0 0;
+  padding: 25px;
+  background: #fffdf7;
+  border: 2px solid #4caf50;
+  border-radius: 18px;
+}
+
+.recommendation-note h2 {
+  font-size: 20px;
+  margin: 0 0 10px;
+}
+
+.recommendation-note p {
+  color: #607d8b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+
+/* Mobile */
+
+@media (max-width: 750px) {
+
+  .recommendation-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .recommendation-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .recommendation-product {
+    width: 100%;
+  }
+
+  .recommendation-quantity {
+    text-align: left;
+  }
+
+  .recommendation-card button {
+    width: 100%;
+  }
+}

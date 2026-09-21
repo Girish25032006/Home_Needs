@@ -1,0 +1,334 @@
+/* =========================================
+   ANALYTICS DASHBOARD
+   ========================================= */
+
+.analytics-dashboard {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+
+/* =========================================
+   PAGE TITLE
+   ========================================= */
+
+.analytics-dashboard .page-title {
+  text-align: left;
+  margin-bottom: 25px;
+}
+
+.analytics-dashboard .page-title h1 {
+  margin: 0 0 6px;
+  font-size: 32px;
+  color: #172033;
+}
+
+.analytics-dashboard .page-title p {
+  margin: 0;
+  color: #6f6a63;
+  font-size: 16px;
+}
+
+
+/* =========================================
+   SUMMARY CARDS
+   ========================================= */
+
+.analytics-summary {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.analytics-card {
+  min-height: 105px;
+  background: #ffffff;
+  border: 1px solid #e8e2da;
+  border-radius: 15px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 16px rgba(43, 41, 37, 0.06);
+}
+
+.analytics-card > span {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e7f0eb;
+  border-radius: 13px;
+  font-size: 25px;
+  flex-shrink: 0;
+}
+
+.analytics-card h3 {
+  margin: 0 0 4px;
+  color: #172033;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.analytics-card strong {
+  display: block;
+  color: #172033;
+  font-size: 23px;
+  margin-bottom: 3px;
+}
+
+.analytics-card p {
+  margin: 0;
+  color: #7a756f;
+  font-size: 11px;
+}
+
+
+/* =========================================
+   ANALYTICS SECTION
+   ========================================= */
+
+.analytics-section {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e8e2da;
+  border-radius: 17px;
+  padding: 25px;
+  box-shadow: 0 4px 16px rgba(43, 41, 37, 0.06);
+  margin-bottom: 22px;
+}
+
+.section-heading {
+  margin-bottom: 18px;
+}
+
+.analytics-section h2 {
+  margin: 0 0 5px;
+  color: #172033;
+  font-size: 21px;
+}
+
+.section-heading p {
+  margin: 0;
+  color: #7a756f;
+  font-size: 13px;
+}
+
+
+/* =========================================
+   SPENDING CHART
+   ========================================= */
+
+.spending-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.chart-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 85px;
+  align-items: center;
+  gap: 15px;
+}
+
+.chart-row > span {
+  color: #4d4a45;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.chart-row > strong {
+  color: #4a7862;
+  font-size: 14px;
+  text-align: right;
+}
+
+
+/* Chart Bar */
+
+.bar {
+  height: 16px;
+  background: #f2eee8;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 20px;
+  background: #4a7862;
+}
+
+.bar-fill.april {
+  width: 70%;
+}
+
+.bar-fill.may {
+  width: 78%;
+}
+
+.bar-fill.june {
+  width: 84%;
+}
+
+.bar-fill.july {
+  width: 76%;
+}
+
+.bar-fill.august {
+  width: 100%;
+}
+
+
+/* =========================================
+   PRODUCT ANALYSIS
+   ========================================= */
+
+.product-analysis {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.analysis-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 18px;
+  background: #fbf9f6;
+  border: 1px solid #eee9e3;
+  border-radius: 11px;
+  transition: 0.2s ease;
+}
+
+.analysis-item:hover {
+  border-color: #c7ddd2;
+  transform: translateY(-1px);
+}
+
+.analysis-item > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.analysis-item span {
+  font-size: 20px;
+}
+
+.analysis-item strong {
+  color: #2b2925;
+  font-size: 14px;
+}
+
+.analysis-item p {
+  margin: 0;
+  color: #4a7862;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+
+/* =========================================
+   HOUSEHOLD INSIGHT
+   ========================================= */
+
+.analytics-insight {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 25px;
+  background: #ffffff;
+  border: 1px solid #e8e2da;
+  border-left: 5px solid #4a7862;
+  border-radius: 17px;
+  box-shadow: 0 4px 16px rgba(43, 41, 37, 0.06);
+}
+
+.insight-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff1d8;
+  border-radius: 13px;
+  font-size: 25px;
+  flex-shrink: 0;
+}
+
+.insight-content {
+  flex: 1;
+}
+
+.insight-content h2 {
+  margin: 0 0 6px;
+  color: #172033;
+  font-size: 20px;
+}
+
+.insight-content p {
+  margin: 0;
+  color: #6f6a63;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 950px) {
+
+  .analytics-dashboard {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .analytics-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 650px) {
+
+  .analytics-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-section,
+  .analytics-insight {
+    padding: 18px;
+  }
+
+  .analytics-dashboard .page-title h1 {
+    font-size: 26px;
+  }
+
+  .chart-row {
+    grid-template-columns: 55px 1fr;
+    gap: 9px;
+  }
+
+  .chart-row > strong {
+    grid-column: 2;
+    text-align: left;
+  }
+
+  .analytics-insight {
+    align-items: flex-start;
+  }
+}

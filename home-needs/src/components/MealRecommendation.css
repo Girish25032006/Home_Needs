@@ -1,0 +1,193 @@
+/* Meal Recommendation */
+
+.meal-recommendation {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.meal-recommendation .page-title {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.meal-recommendation .page-title h1 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.meal-recommendation .page-title p {
+  color: #607d8b;
+  font-size: 16px;
+}
+
+
+/* Available Ingredients */
+
+.available-ingredients {
+  width: 100%;
+  max-width: none;
+  margin: 0 0 30px;
+  background: white;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.available-ingredients h2 {
+  font-size: 21px;
+  margin-bottom: 18px;
+}
+
+.ingredient-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ingredient-list span {
+  background: #fffdf7;
+  border: 1px solid #e8e0cc;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+
+/* Meal Section */
+
+.meal-section {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.meal-section > h2 {
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+
+
+/* Meal Grid */
+
+.meal-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.meal-card {
+  width: 100%;
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  border-bottom: 4px solid #4caf50;
+}
+
+.meal-image {
+  height: 180px;
+  background: #fffdf7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+}
+
+.meal-content {
+  padding: 22px;
+}
+
+.meal-content h3 {
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+
+.meal-content p {
+  color: #607d8b;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 15px;
+}
+
+.meal-details {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.meal-details span {
+  background: #f5f5f5;
+  padding: 6px 9px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.meal-content button {
+  width: 100%;
+  border: none;
+  background: #ff9800;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.meal-content button:hover {
+  opacity: 0.9;
+}
+
+
+/* AI Note */
+
+.meal-ai-note {
+  width: 100%;
+  max-width: none;
+  margin: 30px 0 0;
+  padding: 25px;
+  background: #fffdf7;
+  border: 2px solid #4caf50;
+  border-radius: 18px;
+}
+
+.meal-ai-note h2 {
+  font-size: 20px;
+  margin: 0 0 10px;
+}
+
+.meal-ai-note p {
+  color: #607d8b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+
+/* Tablet */
+
+@media (max-width: 900px) {
+
+  .meal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+  .meal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .meal-recommendation .page-title h1 {
+    font-size: 26px;
+  }
+
+  .meal-image {
+    height: 160px;
+  }
+}

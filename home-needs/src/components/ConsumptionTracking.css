@@ -1,0 +1,150 @@
+/* Consumption Tracking */
+
+.consumption-tracking {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.consumption-tracking .page-title {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.consumption-tracking .page-title h1 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.consumption-tracking .page-title p {
+  color: #607d8b;
+  font-size: 16px;
+}
+
+
+/* Consumption Form */
+
+.consumption-form {
+  width: 100%;
+  max-width: none;
+  margin: 0 0 35px;
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.consumption-form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.consumption-form label {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.consumption-form input,
+.consumption-form select {
+  width: 100%;
+  height: 48px;
+  padding: 13px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+}
+
+.consumption-form input:focus,
+.consumption-form select:focus {
+  border-color: #4caf50;
+}
+
+.consumption-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.consumption-save-button {
+  width: 100%;
+  height: 50px;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: #ff9800;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.consumption-save-button:hover {
+  opacity: 0.9;
+}
+
+
+/* Consumption History */
+
+.consumption-history {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.consumption-history h2 {
+  margin-bottom: 18px;
+  font-size: 22px;
+}
+
+.consumption-card {
+  width: 100%;
+  min-height: 90px;
+  background: white;
+  padding: 20px 25px;
+  margin-bottom: 12px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-left: 5px solid #4caf50;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.consumption-card h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.consumption-card p {
+  color: #607d8b;
+  font-size: 14px;
+  margin: 0;
+}
+
+.consumption-card strong {
+  color: #4caf50;
+  font-size: 18px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 650px) {
+
+  .consumption-form {
+    padding: 22px;
+  }
+
+  .consumption-form .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .consumption-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

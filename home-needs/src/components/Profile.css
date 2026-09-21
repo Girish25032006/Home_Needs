@@ -1,0 +1,363 @@
+/* =========================================
+   PROFILE & SETTINGS
+   ========================================= */
+
+.profile-page {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+
+/* =========================================
+   PAGE TITLE
+   ========================================= */
+
+.profile-page .page-title {
+  text-align: left;
+  margin-bottom: 28px;
+}
+
+.profile-page .page-title h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+  color: #172033;
+}
+
+.profile-page .page-title p {
+  margin: 0;
+  color: #6f6a63;
+  font-size: 16px;
+}
+
+
+/* =========================================
+   PROFILE CARD
+   ========================================= */
+
+.profile-card {
+  width: 100%;
+  margin: 0 0 24px;
+  padding: 28px 30px;
+
+  background: #ffffff;
+
+  border: 1px solid #ebe6df;
+  border-left: 5px solid #4a7862;
+
+  border-radius: 16px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 22px;
+
+  box-shadow: 0 4px 18px rgba(43, 41, 37, 0.07);
+
+  transition: 0.2s ease;
+}
+
+.profile-card:hover {
+  box-shadow: 0 7px 24px rgba(43, 41, 37, 0.1);
+}
+
+.profile-avatar {
+  width: 78px;
+  height: 78px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #f7f3ec;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 38px;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-info h2 {
+  margin: 0 0 7px;
+
+  font-size: 23px;
+
+  color: #202b2a;
+}
+
+.profile-info p {
+  margin: 0;
+
+  color: #6f6a63;
+
+  font-size: 15px;
+}
+
+
+/* =========================================
+   SETTINGS CARD
+   ========================================= */
+
+.settings-card {
+  width: 100%;
+
+  margin: 0 0 24px;
+
+  padding: 28px 30px;
+
+  background: #ffffff;
+
+  border: 1px solid #ebe6df;
+
+  border-radius: 16px;
+
+  box-shadow: 0 4px 18px rgba(43, 41, 37, 0.07);
+}
+
+.settings-card h2 {
+  margin: 0 0 22px;
+
+  font-size: 21px;
+
+  color: #202b2a;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+
+/* =========================================
+   SETTINGS FORM
+   ========================================= */
+
+.settings-form {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 22px;
+}
+
+
+/* =========================================
+   FORM GROUP
+   ========================================= */
+
+.profile-page .form-group {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.profile-page .form-group label {
+  font-size: 14px;
+
+  font-weight: 700;
+
+  color: #514b44;
+}
+
+.profile-page .form-group input,
+.profile-page .form-group select {
+  width: 100%;
+
+  min-height: 46px;
+
+  padding: 11px 14px;
+
+  border: 1px solid #ddd7cf;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #34312d;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition: 0.2s ease;
+}
+
+.profile-page .form-group input::placeholder {
+  color: #99938b;
+}
+
+.profile-page .form-group input:focus,
+.profile-page .form-group select:focus {
+  border-color: #4a7862;
+
+  box-shadow: 0 0 0 3px rgba(74, 120, 98, 0.12);
+}
+
+
+/* =========================================
+   NOTIFICATION SETTINGS
+   ========================================= */
+
+.notification-option {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 17px 18px;
+
+  margin-bottom: 10px;
+
+  background: #fcfaf6;
+
+  border: 1px solid #f0ebe4;
+
+  border-radius: 11px;
+
+  transition: 0.2s ease;
+}
+
+.notification-option:last-child {
+  margin-bottom: 0;
+}
+
+.notification-option:hover {
+  background: #f7f3ec;
+
+  border-color: #e6ddd3;
+}
+
+.notification-option h3 {
+  margin: 0 0 5px;
+
+  font-size: 15px;
+
+  color: #34312d;
+}
+
+.notification-option p {
+  margin: 0;
+
+  color: #77716a;
+
+  font-size: 13px;
+}
+
+.notification-option input {
+  width: 20px;
+  height: 20px;
+
+  flex-shrink: 0;
+
+  accent-color: #4a7862;
+
+  cursor: pointer;
+}
+
+
+/* =========================================
+   SAVE BUTTON
+   ========================================= */
+
+.profile-save-button {
+  width: 100%;
+
+  margin: 4px 0 20px;
+
+  padding: 14px 20px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  background: #4a7862;
+
+  color: #ffffff;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.profile-save-button:hover {
+  background: #35634f;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 5px 15px rgba(74, 120, 98, 0.2);
+}
+
+.profile-save-button:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================
+   RESPONSIVE - TABLET
+   ========================================= */
+
+@media (max-width: 900px) {
+
+  .profile-page {
+    max-width: 100%;
+  }
+
+  .settings-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE - MOBILE
+   ========================================= */
+
+@media (max-width: 650px) {
+
+  .profile-page .page-title h1 {
+    font-size: 27px;
+  }
+
+  .profile-card {
+    padding: 22px;
+
+    flex-direction: column;
+
+    text-align: center;
+  }
+
+  .profile-avatar {
+    width: 70px;
+    height: 70px;
+
+    font-size: 34px;
+  }
+
+  .settings-card {
+    padding: 22px 18px;
+  }
+
+  .settings-form {
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+  .notification-option {
+    padding: 15px;
+  }
+}

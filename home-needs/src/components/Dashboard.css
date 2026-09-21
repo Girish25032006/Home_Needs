@@ -1,0 +1,164 @@
+/* Home Needs Dashboard */
+
+.dashboard {
+  width: 100%;
+}
+
+/* Welcome */
+
+.dashboard-welcome {
+  margin-bottom: 30px;
+}
+
+.dashboard-welcome h1 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.dashboard-welcome p {
+  color: #607d8b;
+  font-size: 17px;
+}
+
+
+/* Summary Cards */
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 35px;
+}
+
+.dashboard-card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  border-left: 5px solid #4caf50;
+}
+
+.dashboard-card:nth-child(2) {
+  border-left-color: #ff9800;
+}
+
+.dashboard-card:nth-child(3) {
+  border-left-color: #ff9800;
+}
+
+.dashboard-card:nth-child(4) {
+  border-left-color: #4caf50;
+}
+
+.card-icon {
+  font-size: 32px;
+}
+
+.dashboard-card h3 {
+  font-size: 15px;
+  margin-bottom: 6px;
+  color: #607d8b;
+}
+
+.dashboard-card strong {
+  font-size: 20px;
+}
+
+
+/* Sections */
+
+.dashboard-section {
+  background: white;
+  padding: 25px;
+  border-radius: 18px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.dashboard-section h2 {
+  font-size: 21px;
+  margin-bottom: 20px;
+}
+
+
+/* AI Predictions */
+
+.prediction-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.prediction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: #fffdf7;
+  border-radius: 10px;
+}
+
+.prediction-item strong {
+  color: #ff9800;
+}
+
+
+/* Shopping Preview */
+
+.shopping-preview,
+.expiry-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shopping-preview div,
+.expiry-preview div {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 15px;
+  background: #fffdf7;
+  border-radius: 10px;
+}
+
+.shopping-preview strong {
+  color: #4caf50;
+}
+
+.expiry-preview strong {
+  color: #ff9800;
+}
+
+
+/* Mobile */
+
+@media (max-width: 900px) {
+
+  .dashboard-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-welcome h1 {
+    font-size: 26px;
+  }
+
+  .prediction-item,
+  .shopping-preview div,
+  .expiry-preview div {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+}

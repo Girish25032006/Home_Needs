@@ -1,0 +1,389 @@
+/* =========================================
+   BARCODE SCANNER
+   ========================================= */
+
+.barcode-scanner {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+
+/* =========================================
+   PAGE TITLE
+   ========================================= */
+
+.barcode-scanner .page-title {
+  text-align: left;
+  margin-bottom: 28px;
+}
+
+.barcode-scanner .page-title h1 {
+  font-size: 32px;
+  margin: 0 0 8px;
+  color: #172033;
+}
+
+.barcode-scanner .page-title p {
+  margin: 0;
+  color: #6f6a63;
+  font-size: 16px;
+}
+
+
+/* =========================================
+   SCANNER CARD
+   ========================================= */
+
+.scanner-card {
+  width: 100%;
+  margin: 0 auto 25px;
+
+  background: #ffffff;
+
+  padding: 30px;
+
+  border: 1px solid #e8e2da;
+  border-radius: 18px;
+
+  text-align: center;
+
+  box-shadow: 0 4px 18px rgba(43, 41, 37, 0.07);
+}
+
+
+/* =========================================
+   CAMERA BOX
+   ========================================= */
+
+.camera-box {
+  width: 100%;
+  height: 330px;
+
+  border: 3px dashed #4caf50;
+
+  border-radius: 16px;
+
+  background: #fffdf7;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 20px;
+}
+
+.scan-frame {
+  text-align: center;
+}
+
+.scan-frame span {
+  font-size: 65px;
+}
+
+.scan-frame p {
+  color: #607d8b;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+
+/* =========================================
+   SCANNER INFO
+   ========================================= */
+
+.scanner-info {
+  color: #607d8b;
+  margin: 0 0 20px;
+  font-size: 15px;
+}
+
+
+/* =========================================
+   START SCAN BUTTON
+   ========================================= */
+
+.start-scan-button {
+  border: none;
+
+  background: #4caf50;
+
+  color: white;
+
+  padding: 13px 28px;
+
+  border-radius: 10px;
+
+  font-size: 16px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.start-scan-button:hover {
+  background: #43a047;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================
+   MANUAL BARCODE
+   ========================================= */
+
+.manual-section {
+  width: 100%;
+
+  margin: 0 auto 25px;
+
+  background: #ffffff;
+
+  padding: 25px 30px;
+
+  border: 1px solid #e8e2da;
+
+  border-radius: 18px;
+
+  box-shadow: 0 4px 18px rgba(43, 41, 37, 0.07);
+}
+
+.manual-section h2 {
+  font-size: 20px;
+
+  color: #172033;
+
+  margin: 0 0 18px;
+}
+
+.barcode-input {
+  width: 100%;
+
+  display: flex;
+
+  gap: 12px;
+}
+
+.barcode-input input {
+  flex: 1;
+
+  height: 48px;
+
+  padding: 0 14px;
+
+  border: 1px solid #ddd7cf;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #2b2925;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition: 0.2s ease;
+}
+
+.barcode-input input::placeholder {
+  color: #a09a92;
+}
+
+.barcode-input input:focus {
+  border-color: #4a7862;
+
+  box-shadow: 0 0 0 3px rgba(74, 120, 98, 0.1);
+}
+
+.barcode-input button {
+  height: 48px;
+
+  border: none;
+
+  background: #ff9800;
+
+  color: white;
+
+  padding: 0 25px;
+
+  border-radius: 10px;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.barcode-input button:hover {
+  background: #f57c00;
+}
+
+
+/* =========================================
+   SCANNED PRODUCT
+   ========================================= */
+
+.scanned-product {
+  width: 100%;
+
+  margin: 0 auto;
+
+  padding: 24px;
+
+  background: #ffffff;
+
+  border: 1px solid #e8e2da;
+
+  border-left: 5px solid #4caf50;
+
+  border-radius: 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  box-shadow: 0 4px 18px rgba(43, 41, 37, 0.07);
+}
+
+
+/* Scoped to avoid affecting other components */
+
+.scanned-product .product-icon {
+  width: 58px;
+  height: 58px;
+
+  border-radius: 13px;
+
+  background: #e7f0eb;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 30px;
+
+  flex-shrink: 0;
+}
+
+.product-details {
+  flex: 1;
+}
+
+.product-details h2 {
+  font-size: 20px;
+
+  color: #172033;
+
+  margin: 0 0 6px;
+}
+
+.product-details p {
+  color: #607d8b;
+
+  font-size: 14px;
+
+  margin: 0 0 3px;
+}
+
+.add-product-button {
+  border: none;
+
+  background: #4caf50;
+
+  color: white;
+
+  padding: 12px 18px;
+
+  border-radius: 10px;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.add-product-button:hover {
+  background: #43a047;
+}
+
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 900px) {
+
+  .barcode-scanner {
+    width: 100%;
+  }
+
+  .camera-box {
+    height: 300px;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 650px) {
+
+  .scanner-card,
+  .manual-section {
+    padding: 20px;
+  }
+
+  .camera-box {
+    height: 250px;
+  }
+
+  .barcode-input {
+    flex-direction: column;
+  }
+
+  .barcode-input button {
+    width: 100%;
+  }
+
+  .scanned-product {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .add-product-button {
+    width: 100%;
+  }
+
+  .barcode-scanner .page-title h1 {
+    font-size: 27px;
+  }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+   ========================================= */
+
+@media (max-width: 450px) {
+
+  .camera-box {
+    height: 220px;
+  }
+
+  .scan-frame span {
+    font-size: 52px;
+  }
+
+  .scanner-info {
+    font-size: 14px;
+  }
+}

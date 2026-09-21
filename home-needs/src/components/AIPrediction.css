@@ -1,0 +1,433 @@
+/* =========================================
+   AI PREDICTION PAGE
+   ========================================= */
+
+.ai-prediction {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+
+/* =========================================
+   PAGE HEADER
+   ========================================= */
+
+.ai-page-header {
+  margin-bottom: 28px;
+}
+
+.ai-page-header h1 {
+  margin: 0 0 6px;
+  font-size: 32px;
+  color: #172033;
+  font-weight: 700;
+}
+
+.ai-page-header p {
+  margin: 0;
+  color: #6f6a63;
+  font-size: 16px;
+}
+
+
+/* =========================================
+   SUMMARY CARDS
+   ========================================= */
+
+.prediction-summary {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.prediction-summary-card {
+  min-height: 120px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e8e2da;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 18px rgba(43, 41, 37, 0.06);
+  transition: 0.2s ease;
+}
+
+.prediction-summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 22px rgba(43, 41, 37, 0.09);
+}
+
+
+/* Green */
+
+.green-card {
+  border-left: 4px solid #4caf50;
+}
+
+
+/* Orange */
+
+.orange-card {
+  border-left: 4px solid #ff9800;
+}
+
+
+/* Red */
+
+.red-card {
+  border-left: 4px solid #e07856;
+}
+
+
+/* =========================================
+   SUMMARY ICON
+   ========================================= */
+
+.summary-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  background: #e7f0eb;
+  flex-shrink: 0;
+}
+
+.orange-card .summary-icon {
+  background: #fff1df;
+}
+
+.red-card .summary-icon {
+  background: #fce9e2;
+}
+
+
+/* =========================================
+   SUMMARY CONTENT
+   ========================================= */
+
+.summary-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.summary-content span {
+  color: #6f6a63;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.summary-content strong {
+  color: #172033;
+  font-size: 27px;
+  line-height: 1.1;
+}
+
+.summary-content small {
+  color: #8a847d;
+  font-size: 11px;
+}
+
+
+/* =========================================
+   MAIN PREDICTION CARD
+   ========================================= */
+
+.prediction-main-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e8e2da;
+  border-radius: 18px;
+  padding: 25px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 18px rgba(43, 41, 37, 0.06);
+}
+
+
+/* =========================================
+   SECTION HEADER
+   ========================================= */
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  margin: 0 0 5px;
+  color: #172033;
+  font-size: 21px;
+}
+
+.section-header p {
+  margin: 0;
+  color: #7b756e;
+  font-size: 13px;
+}
+
+
+/* =========================================
+   PREDICTION ROW
+   ========================================= */
+
+.prediction-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  background: #fbf9f6;
+  border: 1px solid #eee9e3;
+  border-radius: 12px;
+  transition: 0.2s ease;
+}
+
+.prediction-row:last-child {
+  margin-bottom: 0;
+}
+
+.prediction-row:hover {
+  background: #f8f5f0;
+  border-color: #d8e5dd;
+}
+
+
+/* =========================================
+   PRODUCT
+   ========================================= */
+
+.prediction-product {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.prediction-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  flex-shrink: 0;
+}
+
+.rice-icon {
+  background: #fcecee;
+}
+
+.oil-icon {
+  background: #e9f1fb;
+}
+
+.detergent-icon {
+  background: #f8eee3;
+}
+
+.prediction-product-info h3 {
+  margin: 0 0 4px;
+  color: #2b2925;
+  font-size: 17px;
+}
+
+.prediction-product-info p {
+  margin: 0;
+  color: #77716a;
+  font-size: 13px;
+}
+
+
+/* =========================================
+   PREDICTION DETAILS
+   ========================================= */
+
+.prediction-details {
+  min-width: 160px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: #e7f0eb;
+  text-align: right;
+}
+
+.prediction-details span {
+  display: block;
+  margin-bottom: 3px;
+  color: #5d7467;
+  font-size: 11px;
+}
+
+.prediction-details strong {
+  color: #35634f;
+  font-size: 14px;
+}
+
+
+/* Warning */
+
+.prediction-details.warning {
+  background: #fce9e2;
+}
+
+.prediction-details.warning span {
+  color: #9b6857;
+}
+
+.prediction-details.warning strong {
+  color: #c65e3f;
+}
+
+
+/* =========================================
+   AI INSIGHT
+   ========================================= */
+
+.ai-insight {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px;
+  background: #fff3e9;
+  border: 1px solid #f2ddd0;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(43, 41, 37, 0.04);
+}
+
+.insight-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #fde1cf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  flex-shrink: 0;
+}
+
+.insight-content {
+  flex: 1;
+}
+
+.insight-content h2 {
+  margin: 0 0 7px;
+  color: #713c28;
+  font-size: 19px;
+}
+
+.insight-content p {
+  margin: 0;
+  color: #6f625c;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.insight-content strong {
+  color: #c65e3f;
+}
+
+
+/* =========================================
+   SHOPPING BUTTON
+   ========================================= */
+
+.shopping-button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  background: #4a7862;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.2s ease;
+}
+
+.shopping-button:hover {
+  background: #35634f;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 1000px) {
+
+  .prediction-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ai-insight {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .shopping-button {
+    margin-left: 70px;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 650px) {
+
+  .ai-prediction {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .ai-page-header h1 {
+    font-size: 27px;
+  }
+
+  .prediction-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .prediction-main-card {
+    padding: 18px;
+  }
+
+  .prediction-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .prediction-product {
+    width: 100%;
+  }
+
+  .prediction-details {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+  }
+
+  .ai-insight {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .shopping-button {
+    margin-left: 0;
+    width: 100%;
+  }
+}

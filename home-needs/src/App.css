@@ -1,0 +1,647 @@
+/* =========================================
+   HOME NEEDS - GLOBAL APP LAYOUT
+   ========================================= */
+
+:root {
+  --primary: #4a7862;
+  --primary-dark: #35634f;
+  --primary-light: #e7f0eb;
+
+  --accent: #e07856;
+  --accent-light: #fce9e2;
+
+  --background: #fbf9f6;
+  --card: #ffffff;
+
+  --text: #2b2925;
+  --text-light: #6f6a63;
+
+  --border: #e8e2da;
+
+  --shadow: 0 4px 18px rgba(43, 41, 37, 0.07);
+}
+
+
+/* =========================================
+   RESET
+   ========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  color: var(--text);
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+
+/* =========================================
+   MAIN APP
+   ========================================= */
+
+.app {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  background: var(--background);
+}
+
+
+/* =========================================
+   LEFT SIDEBAR
+   ========================================= */
+
+.sidebar {
+  width: 290px;
+  min-height: 100vh;
+  background: #ffffff;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 22px 18px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 100;
+}
+
+
+/* =========================================
+   SIDEBAR LOGO
+   ========================================= */
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 10px 25px;
+}
+
+.logo-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  background: #f7f3ec;
+  border-radius: 14px;
+  flex-shrink: 0;
+}
+
+.logo-text h1 {
+  margin: 0;
+  font-size: 23px;
+  color: #165b46;
+  font-weight: 700;
+}
+
+.logo-text p {
+  margin: 3px 0 0;
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+.logo-text span {
+  display: block;
+  margin-top: 2px;
+  color: #8b8177;
+  font-size: 13px;
+}
+
+
+/* =========================================
+   SIDEBAR NAVIGATION
+   ========================================= */
+
+.sidebar-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.nav-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 11px;
+  background: transparent;
+  color: #344054;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.nav-item.active {
+  background: #e3eee8;
+  color: #165b46;
+  font-weight: 700;
+  box-shadow: inset 4px 0 0 var(--primary);
+}
+
+.nav-icon {
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  font-size: 21px;
+  flex-shrink: 0;
+}
+
+.nav-label {
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   NAVIGATION DIVIDER
+   ========================================= */
+
+.nav-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 14px 8px;
+}
+
+
+/* =========================================
+   SIDEBAR PROFILE
+   ========================================= */
+
+.sidebar-profile {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  transition: 0.2s ease;
+}
+
+.sidebar-profile:hover,
+.sidebar-profile.profile-active {
+  background: var(--primary-light);
+  border-color: #c7ddd2;
+}
+
+.profile-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #eeeeec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  flex-shrink: 0;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 3px;
+}
+
+.profile-info strong {
+  font-size: 15px;
+  color: var(--text);
+}
+
+.profile-info span {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.profile-arrow {
+  font-size: 25px;
+  color: #77716a;
+}
+
+
+/* =========================================
+   MAIN AREA
+   ========================================= */
+
+.main-area {
+  min-width: 0;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  background: var(--background);
+}
+
+
+/* =========================================
+   TOP BAR
+   ========================================= */
+
+.topbar {
+  width: 100%;
+  height: 86px;
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+
+
+/* =========================================
+   SEARCH
+   ========================================= */
+
+.search-box {
+  width: 520px;
+  max-width: 55%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f5f3f0;
+  border-radius: 13px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+}
+
+.search-box:focus-within {
+  border-color: #b9d1c5;
+  background: #ffffff;
+}
+
+.search-icon {
+  font-size: 20px;
+}
+
+.search-box input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  color: var(--text);
+}
+
+.search-box input::placeholder {
+  color: #8a857e;
+}
+
+
+/* =========================================
+   TOP BAR ACTIONS
+   ========================================= */
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.notification-button {
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  font-size: 22px;
+  cursor: pointer;
+  position: relative;
+}
+
+.notification-button:hover {
+  background: var(--primary-light);
+}
+
+.notification-count {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 19px;
+  height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.topbar-divider {
+  width: 1px;
+  height: 34px;
+  background: var(--border);
+}
+
+.top-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.top-profile-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #eeeeec;
+  font-size: 24px;
+}
+
+.dropdown-arrow {
+  margin-left: 5px;
+  font-size: 17px;
+}
+
+
+/* =========================================
+   MAIN CONTENT
+   ========================================= */
+
+.main {
+  width: 100%;
+  min-width: 0;
+  padding: 28px 32px;
+  min-height: calc(100vh - 86px);
+  margin: 0;
+}
+
+
+/* =========================================
+   COMMON PAGE TITLE
+   ========================================= */
+
+.page-title {
+  text-align: left;
+  margin-bottom: 28px;
+}
+
+.page-title h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+  color: #172033;
+}
+
+.page-title p {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 16px;
+}
+
+
+/* =========================================
+   SHOPPING LIST
+   ========================================= */
+
+.shopping-list {
+  width: 100%;
+  max-width: none;
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.shopping-item {
+  background: var(--card);
+  border-radius: 15px;
+  padding: 20px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow);
+  border-left: 5px solid var(--primary);
+  transition: 0.2s ease;
+}
+
+.shopping-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 22px rgba(43, 41, 37, 0.1);
+}
+
+.shopping-item h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  color: #35455c;
+}
+
+.shopping-item p {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 16px;
+}
+
+.shopping-item input[type="checkbox"] {
+  width: 23px;
+  height: 23px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+
+/* =========================================
+   PURCHASED ITEM
+   ========================================= */
+
+.shopping-item.purchased {
+  opacity: 0.65;
+  border-left-color: var(--primary);
+}
+
+.shopping-item.purchased h2 {
+  text-decoration: line-through;
+}
+
+.purchased-text {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 14px;
+}
+
+
+/* =========================================
+   RESPONSIVE - TABLET
+   ========================================= */
+
+@media (max-width: 1000px) {
+
+  .app {
+    grid-template-columns: 235px minmax(0, 1fr);
+  }
+
+  .sidebar {
+    width: 235px;
+    padding: 20px 14px;
+  }
+
+  .logo-text h1 {
+    font-size: 19px;
+  }
+
+  .logo-text p,
+  .logo-text span {
+    font-size: 11px;
+  }
+
+  .nav-item {
+    font-size: 14px;
+    padding: 11px 10px;
+  }
+
+  .main {
+    padding: 25px;
+  }
+
+  .topbar {
+    padding: 0 25px;
+  }
+
+  .search-box {
+    width: 400px;
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE - MOBILE
+   ========================================= */
+
+@media (max-width: 700px) {
+
+  .app {
+    display: block;
+  }
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    min-height: auto;
+    height: auto;
+    padding: 15px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-logo {
+    justify-content: center;
+    padding-bottom: 15px;
+  }
+
+  .sidebar-navigation {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
+
+  .nav-divider {
+    grid-column: 1 / -1;
+  }
+
+  .sidebar-profile {
+    margin-top: 15px;
+  }
+
+  .main-area {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .topbar {
+    height: auto;
+    padding: 15px;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .search-box {
+    order: 1;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .topbar-actions {
+    order: 0;
+    margin-left: auto;
+  }
+
+  .main {
+    padding: 20px 15px;
+  }
+
+  .page-title h1 {
+    font-size: 26px;
+  }
+
+  .shopping-item {
+    padding: 18px;
+  }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+   ========================================= */
+
+@media (max-width: 450px) {
+
+  .sidebar-navigation {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-logo {
+    justify-content: flex-start;
+  }
+
+  .top-profile span,
+  .dropdown-arrow {
+    display: none;
+  }
+
+  .main {
+    padding: 18px 12px;
+  }
+}

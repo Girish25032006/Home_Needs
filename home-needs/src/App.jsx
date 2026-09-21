@@ -250,7 +250,9 @@ function App() {
 
           {page === 'dashboard' && <Dashboard />}
 
-          {page === 'products' && <ProductManagement />}
+          {page === 'products' && (
+            <ProductManagement onAddProduct={() => setPage('add')} />
+          )}
 
           {page === 'purchases' && <PurchaseTracking />}
 

@@ -9,8 +9,7 @@ function AddProduct({ onSave }) {
   const [price, setPrice] = useState('')
   const [purchaseDate, setPurchaseDate] = useState('')
 
-  const handleSave = () => {
-
+  const handleSave = async () => {
     const product = {
       productName,
       quantity,
@@ -19,7 +18,27 @@ function AddProduct({ onSave }) {
       purchaseDate
     }
 
-    onSave(product)
+    try {
+      const response = await fetch('http://127.0.0.1:5000/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(product)
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        alert('Product added successfully!')
+        onSave(product)
+      } else {
+        alert(data.message || 'Failed to add product')
+      }
+    } catch (error) {
+      console.error('Error adding product:', error)
+      alert('Unable to connect to backend')
+    }
   }
 
   return (

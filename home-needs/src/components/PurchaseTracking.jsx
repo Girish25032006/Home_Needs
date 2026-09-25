@@ -1,8 +1,7 @@
-
 import { useEffect, useState } from 'react'
 import './PurchaseTracking.css'
 
-function PurchaseTracking() {
+function PurchaseTracking({ selectedProduct, onPurchaseSaved }) {
   const [productName, setProductName] = useState('')
   const [quantity, setQuantity] = useState('')
   const [unit, setUnit] = useState('Kg')
@@ -28,10 +27,29 @@ function PurchaseTracking() {
     }
   }
 
+  // Fetch purchase history
   useEffect(() => {
     fetchPurchases()
   }, [])
 
+  // Automatically fill product details from Shopping List
+  useEffect(() => {
+    if (selectedProduct) {
+      setProductName(
+        selectedProduct.product_name ||
+        selectedProduct.productName ||
+        ''
+      )
+
+      setUnit(selectedProduct.unit || 'Kg')
+
+      setQuantity('')
+      setAmountPaid('')
+      setPurchaseDate('')
+    }
+  }, [selectedProduct])
+
+  // Save purchase
   const handleSave = async () => {
     if (
       !productName.trim() ||
@@ -43,7 +61,10 @@ function PurchaseTracking() {
       return
     }
 
-    if (Number(quantity) <= 0 || Number(amountPaid) < 0) {
+    if (
+      Number(quantity) <= 0 ||
+      Number(amountPaid) < 0
+    ) {
       alert('Enter a valid quantity and amount')
       return
     }
@@ -73,26 +94,38 @@ function PurchaseTracking() {
       const data = await response.json()
 
       if (response.ok) {
+
+        // Update Shopping List after purchase is saved
+        if (selectedProduct && onPurchaseSaved) {
+          await onPurchaseSaved(selectedProduct)
+        }
+
         alert('Purchase saved successfully!')
 
+        // Clear form
         setProductName('')
         setQuantity('')
         setUnit('Kg')
         setAmountPaid('')
         setPurchaseDate('')
 
+        // Refresh purchase history
         await fetchPurchases()
+
       } else {
         alert(data.message || 'Failed to save purchase')
       }
+
     } catch (error) {
       console.error('Error saving purchase:', error)
       alert('Unable to connect to backend')
+
     } finally {
       setLoading(false)
     }
   }
 
+  // Format date
   const formatDate = (date) => {
     if (!date) return ''
 
@@ -117,6 +150,7 @@ function PurchaseTracking() {
 
         <div className="form-group">
           <label>Product Name</label>
+
           <input
             type="text"
             placeholder="Example: Rice"
@@ -131,6 +165,7 @@ function PurchaseTracking() {
 
           <div className="form-group">
             <label>Quantity</label>
+
             <input
               type="number"
               placeholder="Example: 5"
@@ -143,6 +178,7 @@ function PurchaseTracking() {
 
           <div className="form-group">
             <label>Unit</label>
+
             <select
               value={unit}
               onChange={(e) =>
@@ -164,6 +200,7 @@ function PurchaseTracking() {
 
           <div className="form-group">
             <label>Amount Paid</label>
+
             <input
               type="number"
               placeholder="Example: 300"
@@ -176,6 +213,7 @@ function PurchaseTracking() {
 
           <div className="form-group">
             <label>Purchase Date</label>
+
             <input
               type="date"
               value={purchaseDate}

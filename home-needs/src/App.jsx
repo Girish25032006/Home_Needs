@@ -1,4 +1,5 @@
-import { useState } from 'react'
+
+import { useState, useEffect, useCallback } from 'react'
 import Profile from './components/Profile'
 import AddProduct from './components/AddProduct'
 import Dashboard from './components/Dashboard'
@@ -14,31 +15,120 @@ import BarcodeScanner from './components/BarcodeScanner'
 import AnalyticsDashboard from './components/AnalyticsDashboard'
 import './App.css'
 
+const API_URL = 'http://localhost:5000'
+
 function App() {
   const [page, setPage] = useState('dashboard')
+  const [selectedShoppingItem, setSelectedShoppingItem] = useState(null)
+  const [shoppingItems, setShoppingItems] = useState([])
+  const [shoppingLoading, setShoppingLoading] = useState(false)
+  const [shoppingError, setShoppingError] = useState('')
   const [purchased, setPurchased] = useState([])
 
-  const [products, setProducts] = useState([
-    {
-      productName: 'Rice',
-      quantity: 5,
-      unit: 'Kg'
-    },
-    {
-      productName: 'Cooking Oil',
-      quantity: 2,
-      unit: 'Litre'
-    },
-    {
-      productName: 'Detergent',
-      quantity: 2,
-      unit: 'Packet'
-    }
-  ])
+  // Fetch Shopping List from Flask and MySQL
+  const fetchShoppingList = useCallback(async () => {
+    setShoppingLoading(true)
+    setShoppingError('')
 
+    try {
+      const response = await fetch(`${API_URL}/shopping-list`)
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch shopping list')
+      }
+
+      const data = await response.json()
+
+      const items = Array.isArray(data)
+        ? data
+        : data.shopping_list || data.items || []
+
+      setShoppingItems(items)
+
+      // Show already purchased items as checked
+      setPurchased(
+        items
+          .filter(item => item.status === 'Purchased')
+          .map(item => item.id)
+      )
+    } catch (error) {
+      console.error('Shopping list error:', error)
+      setShoppingError('Unable to load shopping list.')
+    } finally {
+      setShoppingLoading(false)
+    }
+  }, [])
+
+  // Load shopping list when opening the Shopping List page
+  useEffect(() => {
+    if (page === 'shopping') {
+      fetchShoppingList()
+    }
+  }, [page, fetchShoppingList])
+
+  // Add Product callback
   const addProduct = (product) => {
-    setProducts([...products, product])
     setPage('shopping')
+  }
+
+  // Mark shopping item as Purchased or Pending
+  const handlePurchaseChange = (item) => {
+  if (purchased.includes(item.id)) {
+    return
+  }
+
+  setSelectedShoppingItem(item)
+  setPage('purchases')
+}
+
+
+  // Delete all Shopping List records
+  const handleDeleteAll = async () => {
+    if (shoppingItems.length === 0) {
+      alert('Shopping List is already empty.')
+      return
+    }
+
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete ALL Shopping List records? This cannot be undone.'
+    )
+
+    if (!confirmDelete) {
+      return
+    }
+
+    setShoppingLoading(true)
+    setShoppingError('')
+
+    try {
+      // Delete each record using the existing Flask DELETE endpoint
+      for (const item of shoppingItems) {
+        const response = await fetch(
+          `${API_URL}/shopping-list/${item.id}`,
+          { method: 'DELETE' }
+        )
+
+        if (!response.ok) {
+          throw new Error(`Could not delete shopping list record ${item.id}`)
+        }
+      }
+
+      setShoppingItems([])
+      setPurchased([])
+      setSelectedShoppingItem(null)
+
+      alert('All Shopping List records deleted successfully!')
+
+      await fetchShoppingList()
+    } catch (error) {
+      console.error('Delete all error:', error)
+      setShoppingError(
+        'Unable to delete all records. Please refresh the Shopping List and try again.'
+      )
+      await fetchShoppingList()
+    } finally {
+      setShoppingLoading(false)
+    }
   }
 
   const menuItems = [
@@ -137,7 +227,7 @@ function App() {
           {/* Divider */}
           <div className="nav-divider"></div>
 
-          {/* Additional Actions */}
+          {/* Add Product */}
           <button
             className={`nav-item ${
               page === 'add' ? 'active' : ''
@@ -148,6 +238,7 @@ function App() {
             <span className="nav-label">Add Product</span>
           </button>
 
+          {/* Barcode Scanner */}
           <button
             className={`nav-item ${
               page === 'barcode' ? 'active' : ''
@@ -158,6 +249,7 @@ function App() {
             <span className="nav-label">Barcode Scanner</span>
           </button>
 
+          {/* Shopping List */}
           <button
             className={`nav-item ${
               page === 'shopping' ? 'active' : ''
@@ -251,10 +343,42 @@ function App() {
           {page === 'dashboard' && <Dashboard />}
 
           {page === 'products' && (
-            <ProductManagement onAddProduct={() => setPage('add')} />
+            <ProductManagement
+              onAddProduct={() => setPage('add')}
+            />
           )}
 
-          {page === 'purchases' && <PurchaseTracking />}
+          {page === 'purchases' && (
+            <PurchaseTracking
+              selectedProduct={selectedShoppingItem}
+              onPurchaseSaved={async (item) => {
+                try {
+                  const response = await fetch(
+                    `${API_URL}/shopping-list/${item.id}`,
+                    {
+                      method: 'PUT',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                        status: 'Purchased'
+                      })
+                    }
+                  )
+
+                  if (!response.ok) {
+                    throw new Error('Failed to update shopping list')
+                  }
+
+                  setSelectedShoppingItem(null)
+                  await fetchShoppingList()
+                } catch (error) {
+                  console.error(error)
+                  alert('Purchase saved, but shopping list update failed.')
+                }
+              }}
+            />
+          )}
 
           {page === 'consumption' && <ConsumptionTracking />}
 
@@ -306,53 +430,91 @@ function App() {
 
               <div className="shopping-list">
 
-                {products.map((product, index) => (
-                  <div
-                    className={`shopping-item ${
-                      purchased.includes(index)
-                        ? 'purchased'
-                        : ''
-                    }`}
-                    key={index}
-                  >
+                {shoppingLoading && (
+                  <p>Loading shopping list...</p>
+                )}
 
-                    <div>
-                      <h2>
-                        🛒 {product.productName}
-                      </h2>
+                {shoppingError && (
+                  <p style={{ color: 'red' }}>
+                    {shoppingError}
+                  </p>
+                )}
 
-                      {purchased.includes(index) && (
-                        <span className="purchased-text">
-                          ✓ Purchased
-                        </span>
-                      )}
+                {!shoppingLoading &&
+                  !shoppingError &&
+                  shoppingItems.length === 0 && (
+                    <p>
+                      Your shopping list is empty.
+                    </p>
+                  )}
 
-                      <p>
-                        {product.quantity} {product.unit}
-                      </p>
+                {!shoppingLoading &&
+                  shoppingItems.map((item) => (
+                    <div
+                      className={`shopping-item ${
+                        purchased.includes(item.id)
+                          ? 'purchased'
+                          : ''
+                      }`}
+                      key={item.id}
+                    >
+
+                      <div>
+                        <h2>
+                          🛒 {item.product_name}
+                        </h2>
+
+                        {purchased.includes(item.id) && (
+                          <span className="purchased-text">
+                            ✓ Purchased
+                          </span>
+                        )}
+
+                        <p>
+                          {item.required_quantity}{' '}
+                          {item.unit || ''}
+                        </p>
+                      </div>
+
+                      <input
+                        type="checkbox"
+                        checked={purchased.includes(item.id)}
+                        onChange={() => handlePurchaseChange(item)}
+                      />
+
                     </div>
+                  ))}
 
-                    <input
-                      type="checkbox"
-                      checked={purchased.includes(index)}
-                      onChange={() => {
-                        if (purchased.includes(index)) {
-                          setPurchased(
-                            purchased.filter(
-                              item => item !== index
-                            )
-                          )
-                        } else {
-                          setPurchased([
-                            ...purchased,
-                            index
-                          ])
-                        }
+                {!shoppingLoading && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      gap: '12px',
+                      marginTop: '15px',
+                      flexWrap: 'wrap'
+                    }}
+                  >
+                    <button
+                      className="shopping-button"
+                      style={{ flex: 1 }}
+                      onClick={fetchShoppingList}
+                    >
+                      🔄 Refresh Shopping List
+                    </button>
+
+                    <button
+                      className="shopping-button"
+                      style={{
+                        flex: 1,
+                        backgroundColor: '#dc3545',
+                        color: '#ffffff'
                       }}
-                    />
-
+                      onClick={handleDeleteAll}
+                    >
+                      🗑️ Delete All
+                    </button>
                   </div>
-                ))}
+                )}
 
               </div>
             </>

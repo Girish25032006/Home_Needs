@@ -246,6 +246,41 @@ def get_purchases():
 
 
 # -----------------------------------
+# GET LATEST PRODUCT UNIT PRICES
+# -----------------------------------
+
+@app.route('/purchase-unit-prices', methods=['GET'])
+def get_purchase_unit_prices():
+
+    connection = get_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    try:
+        cursor.execute("""
+            SELECT
+                id AS product_id,
+                price AS unit_price
+            FROM products
+            WHERE price IS NOT NULL
+              AND price > 0
+        """)
+
+        prices = cursor.fetchall()
+
+        return prices, 200
+
+    except Exception as error:
+        print("Purchase unit prices error:", error)
+        return {
+            "message": "Failed to fetch product prices"
+        }, 500
+
+    finally:
+        cursor.close()
+        connection.close()
+
+
+# -----------------------------------
 # ADD PURCHASE
 # -----------------------------------
 
@@ -961,9 +996,11 @@ def get_ai_prediction_accuracy():
 # -----------------------------------
 
 @app.route('/shopping-list/add-prediction', methods=['POST'])
+
 def add_prediction_to_shopping_list():
     data = request.get_json(silent=True) or {}
     product_id = data.get('product_id')
+    requested_quantity = data.get('required_quantity')
 
     if not product_id:
         return {"message": "Product ID is required"}, 400
@@ -972,13 +1009,13 @@ def add_prediction_to_shopping_list():
     cursor = connection.cursor(dictionary=True)
 
     try:
-        # Lock the product row while calculating and saving the list item.
         cursor.execute("""
             SELECT id, product_name, quantity
             FROM products
             WHERE id = %s
             FOR UPDATE
         """, (product_id,))
+
         product = cursor.fetchone()
 
         if not product:
@@ -986,9 +1023,28 @@ def add_prediction_to_shopping_list():
             return {"message": "Product not found"}, 404
 
         current_stock = float(product['quantity'] or 0)
-        required_quantity = current_stock if current_stock > 0 else 1
 
-        # Find every pending row for this product, not just the first one.
+        # Use the recommended quantity sent from React.
+        # Keep the old default behavior if no quantity is supplied.
+        if requested_quantity is not None:
+            try:
+                required_quantity = float(requested_quantity)
+            except (TypeError, ValueError):
+                connection.rollback()
+                return {
+                    "message": "Invalid recommended quantity"
+                }, 400
+
+            if required_quantity <= 0:
+                connection.rollback()
+                return {
+                    "message": "Recommended quantity must be greater than zero"
+                }, 400
+
+        else:
+            required_quantity = current_stock if current_stock > 0 else 1
+
+        # Find all existing Pending rows for this product.
         cursor.execute("""
             SELECT id
             FROM shopping_list
@@ -996,6 +1052,7 @@ def add_prediction_to_shopping_list():
             ORDER BY id ASC
             FOR UPDATE
         """, (product_id,))
+
         pending_items = cursor.fetchall()
 
         if pending_items:
@@ -1007,26 +1064,37 @@ def add_prediction_to_shopping_list():
                 WHERE id = %s
             """, (required_quantity, keep_id))
 
-            # Remove older accidental duplicate Pending rows, preserving
-            # the single Pending row and all Purchased history.
-            duplicate_ids = [row['id'] for row in pending_items[1:]]
+            # Remove duplicate Pending rows, preserving Purchased history.
+            duplicate_ids = [
+                row['id'] for row in pending_items[1:]
+            ]
+
             if duplicate_ids:
-                placeholders = ','.join(['%s'] * len(duplicate_ids))
+                placeholders = ','.join(
+                    ['%s'] * len(duplicate_ids)
+                )
+
                 cursor.execute(
-                    f"DELETE FROM shopping_list WHERE id IN ({placeholders})",
+                    f"""
+                    DELETE FROM shopping_list
+                    WHERE id IN ({placeholders})
+                    """,
                     tuple(duplicate_ids)
                 )
 
             message = "Existing pending item updated; duplicate pending rows removed"
+
         else:
             cursor.execute("""
                 INSERT INTO shopping_list
                     (product_id, required_quantity, status)
                 VALUES (%s, %s, 'Pending')
             """, (product_id, required_quantity))
+
             message = "Product added to shopping list"
 
         connection.commit()
+
         return {
             "message": message,
             "product_id": int(product_id),
@@ -1037,12 +1105,14 @@ def add_prediction_to_shopping_list():
     except Exception as error:
         connection.rollback()
         print("Shopping list add-prediction error:", error)
-        return {"message": "Failed to add product to shopping list"}, 500
+
+        return {
+            "message": "Failed to add product to shopping list"
+        }, 500
 
     finally:
         cursor.close()
         connection.close()
-
 
 # -----------------------------------
 # GET SHOPPING LIST

@@ -105,55 +105,68 @@ function AddProduct({ onSave }) {
   }
 
 
-  const handleSave = async () => {
+  
+const handleSave = async () => {
+  if (!productName.trim() || !quantity || Number(quantity) <= 0) {
+    alert('Please enter a product name and valid quantity.')
+    return
+  }
 
-    const product = {
-      productName,
-      quantity,
-      unit,
-      price,
-      purchaseDate,
-      expiryDate,
-      barcode
-    }
+  const product = {
+    productName: productName.trim(),
+    quantity,
+    unit,
+    price,
+    purchaseDate,
+    expiryDate,
+    barcode
+  }
 
-    try {
+  try {
+    const response = await fetch(
+      'http://127.0.0.1:5000/products',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(product)
+      }
+    )
 
-      const response = await fetch(
-        'http://127.0.0.1:5000/products',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(product)
-        }
+    const data = await response.json()
+
+    if (response.ok) {
+      alert('Product added successfully!')
+
+      // Notify the rest of the app that inventory changed
+      window.dispatchEvent(
+        new CustomEvent('productsUpdated')
       )
 
-      const data = await response.json()
-
-      if (response.ok) {
-
-        alert('Product added successfully!')
-
+      // Preserve the existing parent callback
+      if (onSave) {
         onSave(product)
-
-      } else {
-
-        alert(
-          data.message || 'Failed to add product'
-        )
-
       }
 
-    } catch (error) {
+      // Clear the form
+      setProductName('')
+      setQuantity('')
+      setUnit('Kg')
+      setPrice('')
+      setPurchaseDate('')
+      setExpiryDate('')
+      setBarcode('')
 
-      console.error('Error adding product:', error)
-
-      alert('Unable to connect to backend')
-
+    } else {
+      alert(data.message || 'Failed to add product')
     }
+
+  } catch (error) {
+    console.error('Error adding product:', error)
+    alert('Unable to connect to backend')
   }
+}
 
 
   return (

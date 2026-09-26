@@ -1,5 +1,5 @@
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from database import get_connection
 
@@ -1207,6 +1207,156 @@ def delete_shopping_list_item(item_id):
     finally:
         cursor.close()
         connection.close()
+
+
+
+# ================= MEAL RECOMMENDATION APIs =================
+
+@app.route('/meals', methods=['GET'])
+def get_meals():
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        cursor.execute("SELECT * FROM meals ORDER BY id DESC")
+        meals = cursor.fetchall()
+        for meal in meals:
+            cursor.execute("""
+                SELECT id, product_id, ingredient_name,
+                       required_quantity AS quantity, unit
+                FROM meal_ingredients
+                WHERE meal_id = %s
+                ORDER BY id
+            """, (meal['id'],))
+            meal['ingredients'] = cursor.fetchall()
+        return jsonify(meals), 200
+    except Exception as e:
+        print("Get meals error:", e)
+        return jsonify({"error": "Failed to fetch meals"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+
+@app.route('/meals', methods=['POST'])
+def add_meal():
+    data = request.get_json(silent=True) or {}
+    meal_name = str(data.get('meal_name', '')).strip()
+    ingredients = data.get('ingredients', [])
+    difficulty = str(data.get('difficulty', 'Easy')).strip().title()
+
+    if not meal_name:
+        return jsonify({"error": "Meal name is required"}), 400
+    if len(meal_name) > 100:
+        return jsonify({"error": "Meal name must be 100 characters or fewer"}), 400
+    if not isinstance(ingredients, list) or not ingredients:
+        return jsonify({"error": "At least one ingredient is required"}), 400
+
+    try:
+        preparation_time = int(data.get('preparation_time'))
+        if preparation_time <= 0:
+            raise ValueError
+    except (ValueError, TypeError):
+        return jsonify({"error": "Preparation time must be a positive number of minutes"}), 400
+
+    if difficulty not in ('Easy', 'Medium', 'Hard'):
+        return jsonify({"error": "Difficulty must be Easy, Medium or Hard"}), 400
+
+    cleaned = []
+    try:
+        for item in ingredients:
+            if not isinstance(item, dict):
+                raise ValueError("Each ingredient must be an object.")
+            name = str(item.get('ingredient_name', '')).strip()
+            unit = str(item.get('unit', '')).strip()
+            quantity = float(item.get('quantity', 0))
+            if not name or len(name) > 150:
+                raise ValueError("Ingredient name is required (maximum 150 characters).")
+            if not unit or len(unit) > 30:
+                raise ValueError("Ingredient unit is required (maximum 30 characters).")
+            if quantity <= 0:
+                raise ValueError("Ingredient quantity must be greater than zero.")
+            cleaned.append({"ingredient_name": name, "quantity": quantity, "unit": unit})
+    except (ValueError, TypeError) as e:
+        return jsonify({"error": str(e) or "Invalid ingredient quantity"}), 400
+
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        conn.start_transaction()
+        cursor.execute("""
+            SELECT id FROM meals
+            WHERE LOWER(TRIM(meal_name)) = LOWER(TRIM(%s))
+            LIMIT 1 FOR UPDATE
+        """, (meal_name,))
+        if cursor.fetchone():
+            conn.rollback()
+            return jsonify({"error": "A meal with this name already exists"}), 409
+
+        cursor.execute("""
+            INSERT INTO meals (meal_name, preparation_time, difficulty)
+            VALUES (%s, %s, %s)
+        """, (meal_name, preparation_time, difficulty))
+        meal_id = cursor.lastrowid
+
+        cursor.execute("SELECT id, product_name, unit FROM products")
+        products = cursor.fetchall()
+
+        def normalize(value):
+            return ''.join(c.lower() for c in str(value or '') if c.isalnum())
+
+        for item in cleaned:
+            product_id = None
+            for product in products:
+                if (normalize(item['ingredient_name']) == normalize(product['product_name'])
+                        and normalize(item['unit']) == normalize(product['unit'])):
+                    product_id = product['id']
+                    break
+            cursor.execute("""
+                INSERT INTO meal_ingredients
+                    (meal_id, product_id, required_quantity, ingredient_name, unit)
+                VALUES (%s, %s, %s, %s, %s)
+            """, (meal_id, product_id, item['quantity'],
+                  item['ingredient_name'], item['unit']))
+
+        conn.commit()
+        return jsonify({"message": "Meal added successfully", "meal_id": meal_id}), 201
+    except Exception as e:
+        conn.rollback()
+        print("Add meal error:", e)
+        if getattr(e, 'errno', None) == 1062:
+            return jsonify({"error": "A meal with this name already exists"}), 409
+        return jsonify({"error": "Failed to add meal"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+
+@app.route('/meals/<int:meal_id>', methods=['DELETE'])
+def delete_meal(meal_id):
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        conn.start_transaction()
+        cursor.execute("SELECT id FROM meals WHERE id = %s FOR UPDATE", (meal_id,))
+        if not cursor.fetchone():
+            conn.rollback()
+            return jsonify({"error": "Meal not found"}), 404
+
+        cursor.execute("DELETE FROM meal_ingredients WHERE meal_id = %s", (meal_id,))
+        cursor.execute("DELETE FROM meals WHERE id = %s", (meal_id,))
+        conn.commit()
+        return jsonify({
+            "message": "Meal and its ingredients deleted successfully",
+            "meal_id": meal_id
+        }), 200
+    except Exception as e:
+        conn.rollback()
+        print("Delete meal error:", e)
+        return jsonify({"error": "Failed to delete meal"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
 
 # -----------------------------------
 # RUN FLASK SERVER

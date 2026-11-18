@@ -170,6 +170,7 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(global_recipes_bp)
 app.register_blueprint(meal_planner_bp)
 app.register_blueprint(cooking_prediction_bp)
+
 CORS(
     app,
     supports_credentials=True,
@@ -182,9 +183,11 @@ CORS(
         # HTTPS origins used for Home Needs LAN testing.
         "https://localhost:5173",
         "https://10.63.4.131:5173",
+        "https://home-needs.pages.dev",
         "capacitor://localhost"
     ]
 )
+
 
 
 @app.before_request

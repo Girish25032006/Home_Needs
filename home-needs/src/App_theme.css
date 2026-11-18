@@ -1,0 +1,129 @@
+/* =========================================================
+   HOME NEEDS - GLOBAL GREEN NATURE SHELL
+   Import after App.css so this becomes the common shell style.
+========================================================= */
+
+:root {
+  --hn-deep: #0a4b2d;
+  --hn-green: #16884f;
+  --hn-green-light: #dff5e2;
+  --hn-mint: #effbed;
+  --hn-border: #cfe6d2;
+  --hn-text: #163d2a;
+  --hn-muted: #6e8377;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background: #effbed !important;
+}
+
+.app {
+  background: linear-gradient(135deg, #f4fff2 0%, #e9f9e8 100%) !important;
+}
+
+.sidebar {
+  background:
+    radial-gradient(circle at 18% 7%, rgba(153, 221, 158, .45), transparent 24%),
+    radial-gradient(circle at 78% 90%, rgba(103, 193, 119, .18), transparent 27%),
+    linear-gradient(180deg, #f4fff3 0%, #e7f8e6 55%, #def2df 100%) !important;
+  border-right: 1px solid var(--hn-border) !important;
+  box-shadow: 4px 0 18px rgba(30, 96, 52, .07) !important;
+}
+
+.sidebar-logo {
+  border-bottom-color: #cde5d0 !important;
+}
+
+.logo-text h1 {
+  color: var(--hn-deep) !important;
+}
+
+.logo-text p,
+.logo-text span {
+  color: #47735a !important;
+}
+
+.nav-item {
+  color: var(--hn-text) !important;
+  border: 1px solid transparent !important;
+  border-radius: 11px !important;
+  transition: all .2s ease !important;
+}
+
+.nav-item:hover {
+  background: rgba(255,255,255,.62) !important;
+  border-color: #c8e4cd !important;
+  transform: translateX(2px);
+}
+
+.nav-item.active {
+  background: linear-gradient(90deg, #22a960, #14884b) !important;
+  color: #fff !important;
+  border-color: #13854a !important;
+  box-shadow: 0 6px 16px rgba(20,136,75,.20) !important;
+}
+
+.nav-item.active .nav-icon,
+.nav-item.active .nav-label {
+  color: #fff !important;
+}
+
+.nav-divider {
+  background: #c8e2cc !important;
+}
+
+.sidebar-profile {
+  background: linear-gradient(135deg, #e5f5e2 0%, #d8ecd5 100%) !important;
+  border: 1px solid #cfe5d2 !important;
+  box-shadow: 0 6px 15px rgba(31,100,54,.07) !important;
+}
+
+.sidebar-profile:hover {
+  background: #e8f7e5 !important;
+  border-color: #abd3b1 !important;
+}
+
+.profile-info strong,
+.profile-info span,
+.profile-arrow {
+  color: #17472e !important;
+}
+
+.topbar {
+  background: linear-gradient(135deg, #e8f6e5 0%, #dcefd9 100%) !important;
+  border-bottom: 1px solid #d8eadb !important;
+  box-shadow: 0 2px 12px rgba(26,91,49,.06) !important;
+}
+
+/* Search is intentionally removed from the Home Needs header. */
+.topbar .search-box {
+  display: none !important;
+}
+
+.topbar-actions {
+  margin-left: auto !important;
+}
+
+.notification-button {
+  color: #167a47 !important;
+}
+
+.top-profile {
+  color: #163f2b !important;
+}
+
+.shopping-button {
+  background: linear-gradient(135deg, #16884f, #0e6f3d) !important;
+  border-color: #0d6d3c !important;
+}
+
+.main-area,
+.main {
+  background: linear-gradient(135deg, #f2fff0 0%, #eaf9e9 100%) !important;
+}

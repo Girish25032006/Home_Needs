@@ -1,226 +1,4005 @@
-
-/* Meal Recommendation */
+/* =========================================================
+   HOME NEEDS — MEAL RECOMMENDATIONS
+   Complete stylesheet for MealRecommendation.jsx
+   Keeps all existing JSX handlers, state and API logic intact.
+   ========================================================= */
 
 .meal-recommendation {
+  --mr-green: #247447;
+  --mr-green-dark: #155b35;
+  --mr-green-soft: #eaf5ec;
+  --mr-orange: #e98b36;
+  --mr-orange-soft: #fff1e2;
+  --mr-cream: #fffdf7;
+  --mr-text: #24352a;
+  --mr-muted: #718075;
+  --mr-border: #e2eae1;
+  --mr-danger: #c7473d;
+  --mr-shadow: 0 10px 28px rgba(30, 70, 43, 0.08);
   width: 100%;
-  max-width: none;
-  margin: 0;
+  max-width: 1440px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+  color: var(--mr-text);
+  font-family: inherit;
+}
+
+.meal-recommendation *,
+.meal-recommendation *::before,
+.meal-recommendation *::after {
+  box-sizing: border-box;
+}
+
+.meal-recommendation button,
+.meal-recommendation input,
+.meal-recommendation select,
+.meal-recommendation textarea {
+  font: inherit;
+}
+
+.meal-recommendation button {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .meal-recommendation .page-title {
-  text-align: left;
-  margin-bottom: 30px;
+  margin: 0 0 24px;
+  padding: 26px 28px;
+  border: 1px solid #e4eee3;
+  border-radius: 20px;
+  background: linear-gradient(115deg, #f0f8ef 0%, #fff8ed 100%);
 }
 
 .meal-recommendation .page-title h1 {
-  font-size: 32px;
-  margin-bottom: 8px;
+  margin: 0 0 8px;
+  color: var(--mr-green-dark);
+  font-size: clamp(25px, 3vw, 34px);
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.6px;
 }
 
 .meal-recommendation .page-title p {
-  color: #607d8b;
-  font-size: 16px;
+  margin: 0;
+  color: #66766a;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
-/* Available Ingredients */
-
-.available-ingredients {
-  width: 100%;
-  max-width: none;
-  margin: 0 0 30px;
-  background: white;
-  padding: 25px;
-  border-radius: 18px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
-}
-
-.available-ingredients h2 {
-  font-size: 21px;
-  margin-bottom: 18px;
-}
-
-.ingredient-list {
+/* Expiry tracking notice */
+.meal-recommendation > div[style*="background: rgb(255, 248, 232)"] {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px 18px;
+}
+.meal-recommendation > div[style*="background: rgb(255, 248, 232)"] h3 {
+  flex-basis: 100%;
+  margin: 0;
+  color: #8a520e;
+}
+.meal-recommendation > div[style*="background: rgb(255, 248, 232)"] p {
+  flex: 1 1 260px;
+  margin: 0;
+  color: #775b31;
+  line-height: 1.5;
 }
 
-.ingredient-list span {
-  background: #fffdf7;
-  border: 1px solid #e8e0cc;
-  padding: 10px 15px;
-  border-radius: 20px;
+/* Available ingredients panel */
+.meal-recommendation .available-ingredients {
+  position: relative;
+  margin: 0 0 22px;
+  padding: 22px;
+  border: 1px solid var(--mr-border);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: var(--mr-shadow);
+}
+
+.meal-recommendation .available-ingredients-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 17px;
+}
+
+.meal-recommendation .available-ingredients-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.meal-recommendation .available-ingredients-icon {
+  display: grid;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 15px;
+  background: var(--mr-green-soft);
+  font-size: 25px;
+}
+
+.meal-recommendation .available-ingredients-heading h2 {
+  margin: 0 0 4px;
+  color: var(--mr-green-dark);
+  font-size: 21px;
+  line-height: 1.25;
+}
+
+.meal-recommendation .available-ingredients-heading p {
+  margin: 0;
+  color: var(--mr-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.meal-recommendation .ingredients-view-all,
+.meal-recommendation .ingredient-more-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 8px 13px;
+  border: 1px solid #cfe2d1;
+  border-radius: 10px;
+  background: #f5fbf5;
+  color: var(--mr-green-dark);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+.meal-recommendation .ingredients-view-all:hover,
+.meal-recommendation .ingredient-more-btn:hover {
+  border-color: #9fc9a5;
+  background: #eaf5ec;
+}
+
+.meal-recommendation .ingredient-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 440px;
+  min-height: 44px;
+  margin: 0 0 16px;
+  padding: 0 13px;
+  border: 1px solid #dfe8df;
+  border-radius: 11px;
+  background: #fbfdfb;
+  color: #809084;
+}
+
+.meal-recommendation .ingredient-search-wrap > span {
+  font-size: 23px;
+  line-height: 1;
+}
+
+.meal-recommendation .ingredient-search-wrap input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--mr-text);
   font-size: 14px;
 }
 
-/* Meal Section */
-
-.meal-section {
-  width: 100%;
-  max-width: none;
-  margin: 0;
+.meal-recommendation .ingredient-search-wrap input:focus {
+  outline: 0;
 }
 
-.meal-section > h2 {
-  font-size: 22px;
-  margin-bottom: 18px;
-}
-
-/* Meal Grid */
-
-.meal-grid {
-  width: 100%;
+.meal-recommendation .ingredient-search-wrap button {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #edf3ed;
+  color: #526457;
+  font-size: 19px;
+  cursor: pointer;
 }
 
-/* Meal Card */
+.meal-recommendation .ingredient-list {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: 0;
+}
 
-.meal-card {
+.meal-recommendation .ingredient-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 43px;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e0ebdf;
+  border-radius: 12px;
+  background: #f8fcf7;
+  color: #304b37;
+}
+
+.meal-recommendation .ingredient-chip-emoji {
+  flex: 0 0 auto;
+  font-size: 18px;
+}
+
+.meal-recommendation .ingredient-chip-name {
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.meal-recommendation .ingredient-chip-quantity {
+  flex: 0 0 auto;
+  padding-left: 7px;
+  border-left: 1px solid #dce8db;
+  color: #748276;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.meal-recommendation .ingredients-empty-state {
+  margin: 10px 0;
+  color: var(--mr-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.meal-recommendation .refresh-ingredients-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  margin-top: 17px;
+  padding: 9px 15px;
+  border: 1px solid #cfe2d1;
+  border-radius: 10px;
+  background: #f2f9f2;
+  color: var(--mr-green-dark);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .18s ease;
+}
+
+.meal-recommendation .refresh-ingredients-btn:hover:not(:disabled) {
+  background: #e5f3e6;
+  transform: translateY(-1px);
+}
+
+.meal-recommendation .refresh-ingredients-btn:disabled {
+  opacity: .65;
+  cursor: wait;
+}
+
+.meal-recommendation .refresh-icon {
+  display: inline-block;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.meal-recommendation .refresh-icon.is-spinning {
+  animation: mr-spin 1s linear infinite;
+}
+
+@keyframes mr-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Add your own meal action */
+.meal-recommendation .add-meal-trigger {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 26px;
+}
+
+.meal-recommendation .add-own-meal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 11px 19px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #287b49, #17623a);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 750;
+  box-shadow: 0 7px 17px rgba(30, 105, 58, .18);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.meal-recommendation .add-own-meal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(30, 105, 58, .23);
+}
+
+/* Recommended meals section and filters */
+.meal-recommendation .meal-section {
+  min-width: 0;
+  margin: 0 0 25px;
+}
+
+.meal-recommendation .meal-section > h2 {
+  margin: 0 0 7px;
+  color: var(--mr-green-dark);
+  font-size: clamp(22px, 2.5vw, 27px);
+  line-height: 1.3;
+  font-weight: 800;
+}
+
+.meal-recommendation .meal-section > p {
+  color: var(--mr-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.meal-recommendation .meal-section > div[style*="display: grid"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  margin: 18px 0 22px !important;
+  padding: 17px !important;
+  border: 1px solid var(--mr-border);
+  border-radius: 16px !important;
+  background: #fff !important;
+  box-shadow: 0 5px 18px rgba(30, 70, 43, .055) !important;
+}
+
+.meal-recommendation .meal-section > div[style*="display: grid"] label {
+  display: block;
+  margin: 0 0 7px !important;
+  color: #405b47;
+  font-size: 13px;
+  font-weight: 750 !important;
+}
+
+.meal-recommendation .meal-section > div[style*="display: grid"] select {
   width: 100%;
-  background: white;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
-  border-bottom: 4px solid #4caf50;
+  min-width: 0;
+  min-height: 44px;
+  padding: 9px 36px 9px 12px !important;
+  border: 1px solid #dce7dc !important;
+  border-radius: 10px !important;
+  background-color: #fbfdfb;
+  color: var(--mr-text);
+  outline: none;
+}
+
+.meal-recommendation .meal-section > div[style*="display: grid"] select:focus,
+.meal-recommendation .form-field input:focus,
+.meal-recommendation .form-field select:focus,
+.meal-recommendation .preparation-step-field textarea:focus {
+  border-color: #78b487 !important;
+  box-shadow: 0 0 0 3px rgba(57, 137, 78, .11);
+  outline: 0;
+}
+
+.meal-recommendation .meal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+  align-items: stretch;
+  gap: 20px;
+  min-width: 0;
+}
+
+.meal-recommendation .meal-card {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  overflow: visible;
+  border: 1px solid #e3ebe2;
+  border-radius: 17px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(30, 70, 43, .07);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
 
-.meal-image {
-  height: 180px;
-  background: #fffdf7;
+.meal-recommendation .meal-card:hover {
+  transform: translateY(-3px);
+  border-color: #cfe2cf;
+  box-shadow: 0 12px 27px rgba(30, 70, 43, .12);
+}
+
+.meal-recommendation .meal-image {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 60px;
+  width: 100%;
+  height: 190px;
+  overflow: hidden;
+  border-radius: 16px 16px 0 0;
+  background: linear-gradient(135deg, #f1f7ed, #fff4e7);
+  color: #4a7654;
+  font-size: 65px;
 }
 
-/* Meal Content */
+.meal-recommendation .meal-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .3s ease;
+}
 
-.meal-content {
-  padding: 22px;
+.meal-recommendation .meal-card:hover .meal-image img {
+  transform: scale(1.035);
+}
+
+.meal-recommendation .meal-match-badge {
+  position: absolute;
+  bottom: 11px;
+  left: 11px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  min-height: 27px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255,255,255,.75);
+  border-radius: 20px;
+  background: rgba(255,255,255,.94);
+  color: var(--mr-green-dark);
+  font-size: 11px;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(0,0,0,.09);
+}
+
+.meal-recommendation .meal-content {
   display: flex;
-  flex-direction: column;
   flex: 1;
-  box-sizing: border-box;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+  padding: 17px;
 }
 
-.meal-content h3 {
-  font-size: 20px;
-  margin: 0 0 8px;
+.meal-recommendation .meal-content h3 {
+  margin: 0 0 7px;
+  color: #244b30;
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 800;
+  overflow-wrap: anywhere;
 }
 
-.meal-content p {
-  color: #607d8b;
-  font-size: 14px;
-  line-height: 1.5;
-  margin: 0 0 15px;
+.meal-recommendation .meal-content > p {
+  margin: 0;
+  color: #758078;
+  font-size: 13px;
+  line-height: 1.55;
 }
 
-.meal-details {
+.meal-recommendation .meal-details {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.meal-details span {
-  background: #f5f5f5;
-  padding: 6px 9px;
-  border-radius: 8px;
+  gap: 8px 14px;
+  margin-top: 13px;
+  color: #66776a;
   font-size: 12px;
 }
 
-/* All Meal Buttons */
+.meal-recommendation .meal-content > p[style*="font-weight: bold"] {
+  margin: 12px 0 13px !important;
+  font-size: 12px;
+  line-height: 1.45;
+}
 
-.meal-content button {
+.meal-recommendation .meal-content > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  min-height: 40px;
-  box-sizing: border-box;
+  min-height: 41px;
+  margin-top: 9px;
+  padding: 9px 12px;
+  border: 1px solid #d7e7d8;
+  border-radius: 10px;
+  background: #f4faf4;
+  color: var(--mr-green-dark);
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: .18s ease;
+}
+
+.meal-recommendation .meal-content > button:hover {
+  border-color: #a9cfad;
+  background: #eaf5eb;
+}
+
+.meal-recommendation .meal-content > .cook-meal-btn {
+  border-color: #f2d5b6;
+  background: #fff4e8;
+  color: #99510e;
+}
+
+.meal-recommendation .meal-content > .cook-meal-btn:hover {
+  background: #ffead5;
+}
+
+.meal-recommendation .meal-content > .delete-meal-btn {
+  border-color: #f0d2cf;
+  background: #fff7f6;
+  color: #b33e35;
+}
+
+.meal-recommendation .meal-content > .delete-meal-btn:hover {
+  background: #ffedeb;
+}
+
+.meal-recommendation .meal-card-menu-wrap {
+  z-index: 6 !important;
+}
+
+.meal-recommendation .meal-card-menu-wrap > button {
+  display: grid;
+  place-items: center;
+  width: 36px !important;
+  height: 36px !important;
+  border: 1px solid #e2eae1 !important;
+  border-radius: 50% !important;
+  background: rgba(255,255,255,.97) !important;
+  color: var(--mr-green-dark) !important;
+  font-size: 22px !important;
+  line-height: 1 !important;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0,0,0,.12) !important;
+}
+
+.meal-recommendation .meal-card-menu-wrap > div {
+  z-index: 10;
+}
+
+.meal-recommendation .meal-card-menu-wrap > div button:hover {
+  background: #f0f7ef !important;
+}
+
+/* Shared modal foundations */
+.meal-recommendation .add-meal-modal-overlay,
+.meal-recommendation .recipe-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: none;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: bold;
+  overflow: auto;
+  padding: 22px;
+  background: rgba(17, 34, 23, .58);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.meal-recommendation .add-meal-modal,
+.meal-recommendation .recipe-modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 850px);
+  max-height: calc(100dvh - 44px);
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: 20px;
+  background: var(--mr-cream);
+  box-shadow: 0 24px 70px rgba(0,0,0,.25);
+}
+
+.meal-recommendation .add-meal-modal-header,
+.meal-recommendation .recipe-modal-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 19px 23px;
+  border-bottom: 1px solid #e8eee5;
+  background: #fff;
+}
+
+.meal-recommendation .add-meal-modal-header h2 {
+  margin: 0 0 5px;
+  color: var(--mr-green-dark);
+  font-size: 22px;
+  line-height: 1.3;
+}
+
+.meal-recommendation .add-meal-modal-header p {
+  margin: 0;
+  color: var(--mr-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.meal-recommendation .add-meal-close-btn,
+.meal-recommendation .recipe-modal-close {
+  display: grid;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid #e4ebe2;
+  border-radius: 50%;
+  background: #f6faf5;
+  color: #42604a;
+  font-size: 18px;
   cursor: pointer;
-  margin: 0;
-  flex-shrink: 0;
+  transition: .18s ease;
 }
 
-.meal-content button:hover {
-  opacity: 0.9;
+.meal-recommendation .add-meal-close-btn:hover,
+.meal-recommendation .recipe-modal-close:hover {
+  border-color: #efc7bd;
+  background: #fff0ed;
+  color: #b43f35;
 }
 
-/* View Recipe Button */
-
-.meal-content button:first-of-type {
-  background: #ff9800;
-  color: white;
-  margin-top: auto;
-  margin-bottom: 8px;
+/* Add meal form */
+.meal-recommendation .add-meal-form {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 22px 24px 24px;
+  scrollbar-width: thin;
+  scrollbar-color: #b9d0ba #f2f5f0;
 }
 
-/* Delete Button */
-
-.meal-content button:last-of-type:not(:first-of-type) {
-  background: #ffdddd;
-  color: #b42318;
-  margin-top: 0;
-  margin-bottom: 0;
+.meal-recommendation .add-meal-form::-webkit-scrollbar,
+.meal-recommendation .recipe-modal-body::-webkit-scrollbar {
+  width: 8px;
 }
 
-.meal-content button:last-of-type:not(:first-of-type):hover {
-  background: #ffcaca;
+.meal-recommendation .add-meal-form::-webkit-scrollbar-thumb,
+.meal-recommendation .recipe-modal-body::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #b9d0ba;
 }
 
-/* AI Note */
+.meal-recommendation .form-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 7px;
+}
 
-.meal-ai-note {
+.meal-recommendation .form-field.full-width {
   width: 100%;
-  max-width: none;
-  margin: 30px 0 0;
-  padding: 25px;
-  background: #fffdf7;
-  border: 2px solid #4caf50;
-  border-radius: 18px;
+  margin-bottom: 17px;
 }
 
-.meal-ai-note h2 {
-  font-size: 20px;
-  margin: 0 0 10px;
+.meal-recommendation .form-field label {
+  color: #3d5543;
+  font-size: 13px;
+  font-weight: 750;
 }
 
-.meal-ai-note p {
-  color: #607d8b;
-  line-height: 1.6;
+.meal-recommendation .form-field input,
+.meal-recommendation .form-field select,
+.meal-recommendation .preparation-step-field textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #dce6da;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--mr-text);
+  font-size: 14px;
+  line-height: 1.4;
+  outline: none;
+}
+
+.meal-recommendation .form-field input::placeholder,
+.meal-recommendation .preparation-step-field textarea::placeholder {
+  color: #a0aaa1;
+}
+
+.meal-recommendation .optional-label {
+  color: #879489;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.meal-recommendation .meal-gallery-open-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 66px;
+  padding: 11px 14px;
+  border: 1px dashed #a9c9ac;
+  border-radius: 12px;
+  background: #f5faf4;
+  color: var(--mr-green-dark);
+  text-align: left;
+  cursor: pointer;
+  transition: .18s ease;
+}
+
+.meal-recommendation .meal-gallery-open-button:hover {
+  border-color: var(--mr-green);
+  background: #edf7ed;
+}
+
+.meal-recommendation .meal-gallery-open-icon {
+  display: grid;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 10px;
+  background: #e1f0e2;
+  font-size: 23px;
+}
+
+.meal-recommendation .meal-gallery-open-button > span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.meal-recommendation .meal-gallery-open-button small {
+  color: #7a897c;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.meal-recommendation .selected-meal-image-preview {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 11px;
+  padding: 10px;
+  border: 1px solid #e2ebe0;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.meal-recommendation .selected-meal-image-preview img {
+  width: 76px;
+  height: 66px;
+  flex: 0 0 76px;
+  border-radius: 9px;
+  object-fit: cover;
+}
+
+.meal-recommendation .selected-meal-image-preview > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+}
+
+.meal-recommendation .selected-meal-image-preview strong {
+  color: #3e5b43;
+  font-size: 13px;
+}
+
+.meal-recommendation .clear-meal-image {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #bd4b40;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.meal-recommendation .add-meal-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 0 23px;
+}
+
+.meal-recommendation .ingredients-heading-row,
+.meal-recommendation .preparation-steps-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 22px 0 14px;
+}
+
+.meal-recommendation .ingredients-heading-row h3,
+.meal-recommendation .preparation-steps-heading h3 {
+  margin: 0 0 5px;
+  color: var(--mr-green-dark);
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.meal-recommendation .ingredients-heading-row p,
+.meal-recommendation .preparation-steps-heading p {
   margin: 0;
+  color: var(--mr-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.meal-recommendation .add-ingredient-btn,
+.meal-recommendation .add-preparation-step-btn {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid #cfe2d1;
+  border-radius: 9px;
+  background: #f1f8f1;
+  color: var(--mr-green-dark);
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.meal-recommendation .ingredient-form-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.meal-recommendation .ingredient-form-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(90px, .8fr) minmax(100px, .8fr) 38px;
+  align-items: end;
+  gap: 11px;
+  padding: 13px;
+  border: 1px solid #e4ebe2;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.meal-recommendation .remove-ingredient-btn,
+.meal-recommendation .remove-preparation-step-btn {
+  display: grid;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid #f0d8d4;
+  border-radius: 9px;
+  background: #fff7f5;
+  color: #bd4b40;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.meal-recommendation .remove-ingredient-btn:disabled,
+.meal-recommendation .remove-preparation-step-btn:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+.meal-recommendation .preparation-steps-editor {
+  margin-top: 24px;
+}
+
+.meal-recommendation .required-mark {
+  color: #c7463c;
+}
+
+.meal-recommendation .preparation-step-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meal-recommendation .preparation-step-field {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #e3ebe1;
+  border-radius: 11px;
+  background: #fff;
+}
+
+.meal-recommendation .preparation-step-number {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 50%;
+  background: #e9f4e9;
+  color: var(--mr-green-dark);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.meal-recommendation .preparation-step-field textarea {
+  min-height: 58px;
+  resize: vertical;
+}
+
+.meal-recommendation .meal-form-message {
+  margin-top: 17px;
+  padding: 12px 14px;
+  border: 1px solid #f0dfbd;
+  border-radius: 10px;
+  background: #fff8e9;
+  color: #865b19;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.meal-recommendation .add-meal-form-actions {
+  position: sticky;
+  bottom: -24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin: 23px -24px -24px;
+  padding: 15px 24px;
+  border-top: 1px solid #e7ede4;
+  background: rgba(255,255,255,.97);
+}
+
+.meal-recommendation .cancel-meal-btn,
+.meal-recommendation .save-meal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 115px;
+  min-height: 42px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.meal-recommendation .cancel-meal-btn {
+  border: 1px solid #dce6da;
+  background: #fff;
+  color: #5e6e61;
+}
+
+.meal-recommendation .save-meal-btn {
+  border: 1px solid var(--mr-green);
+  background: var(--mr-green);
+  color: #fff;
+}
+
+.meal-recommendation .save-meal-btn:hover:not(:disabled) {
+  background: var(--mr-green-dark);
+}
+
+.meal-recommendation .save-meal-btn:disabled {
+  opacity: .65;
+  cursor: wait;
+}
+
+/* Recipe details modal */
+.meal-recommendation .recipe-modal {
+  width: min(100%, 900px);
+  max-height: calc(100dvh - 40px);
+}
+
+.meal-recommendation .recipe-modal-header {
+  min-height: 65px;
+}
+
+.meal-recommendation .recipe-modal-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.meal-recommendation .recipe-modal-heading-icon {
+  display: grid;
+  width: 37px;
+  height: 37px;
+  place-items: center;
+  border-radius: 11px;
+  background: #eaf5eb;
+  color: var(--mr-green);
+  font-size: 21px;
+}
+
+.meal-recommendation .recipe-modal-heading h2 {
+  margin: 0;
+  color: var(--mr-green-dark);
+  font-size: 20px;
+}
+
+.meal-recommendation .recipe-hero {
+  display: grid;
+  grid-template-columns: minmax(190px, 260px) minmax(0, 1fr);
+  gap: 21px;
+  padding: 20px 23px;
+  border-bottom: 1px solid #e8eee5;
+  background: linear-gradient(110deg, #f3f9f1, #fff8ee);
+}
+
+.meal-recommendation .recipe-hero-image {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 175px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #eaf3e7;
+  font-size: 58px;
+}
+
+.meal-recommendation .recipe-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.meal-recommendation .recipe-hero-emoji {
+  font-size: 60px;
+}
+
+.meal-recommendation .recipe-hero-match {
+  position: absolute;
+  bottom: 9px;
+  left: 9px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.95);
+  color: var(--mr-green-dark);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.meal-recommendation .recipe-hero-info {
+  align-self: center;
+  min-width: 0;
+}
+
+.meal-recommendation .recipe-hero-info h2 {
+  margin: 0 0 8px;
+  color: #214c2d;
+  font-size: 24px;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.meal-recommendation .recipe-hero-info > p {
+  margin: 0 0 13px;
+  color: #69776c;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.meal-recommendation .recipe-hero-meta,
+.meal-recommendation .recipe-hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.meal-recommendation .recipe-hero-meta span,
+.meal-recommendation .recipe-hero-tags span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 27px;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.8);
+  color: #566a59;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.meal-recommendation .recipe-hero-tags .recipe-tag-veg {
+  background: #e4f3e4;
+  color: #27653a;
+}
+
+.meal-recommendation .recipe-hero-tags .recipe-tag-type {
+  background: #fff0df;
+  color: #92500f;
+}
+
+.meal-recommendation .recipe-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 20px 23px 24px;
+  scrollbar-width: thin;
+  scrollbar-color: #b9d0ba #f2f5f0;
+}
+
+.meal-recommendation .recipe-availability-card {
+  margin-bottom: 24px;
+  padding: 16px;
+  border: 1px solid #dfeade;
+  border-radius: 13px;
+  background: #f8fcf7;
+}
+
+.meal-recommendation .recipe-availability-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 12px;
+  color: #355c3d;
+  font-size: 14px;
+}
+
+.meal-recommendation .recipe-availability-check {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  border-radius: 50%;
+  background: #dff0df;
+  color: #26703d;
+  font-weight: 900;
+}
+
+.meal-recommendation .recipe-availability-track {
+  width: 100%;
+  height: 9px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #e5ebe3;
+}
+
+.meal-recommendation .recipe-availability-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #68ad70, #2c8149);
+}
+
+.meal-recommendation .recipe-availability-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 9px;
+  color: #718074;
+  font-size: 12px;
+}
+
+.meal-recommendation .recipe-availability-summary strong {
+  color: var(--mr-green-dark);
+  font-size: 14px;
+}
+
+.meal-recommendation .recipe-section-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 13px;
+}
+
+.meal-recommendation .recipe-section-title-row h3 {
+  margin: 0 0 4px;
+  color: #2b5535;
+  font-size: 17px;
+}
+
+.meal-recommendation .recipe-section-title-row p {
+  margin: 0;
+  color: #7b887d;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.meal-recommendation .recipe-ingredient-count {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #edf5ec;
+  color: #4a694e;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.meal-recommendation .recipe-ingredient-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.meal-recommendation .recipe-ingredient-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 13px;
+  border: 1px solid #e4eae2;
+  border-radius: 11px;
+  background: #fff;
+}
+
+.meal-recommendation .recipe-ingredient-item.available {
+  border-left: 3px solid #64a86d;
+}
+
+.meal-recommendation .recipe-ingredient-item.unavailable {
+  border-left: 3px solid #e1a04d;
+}
+
+.meal-recommendation .recipe-ingredient-main {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.meal-recommendation .recipe-ingredient-icon {
+  display: grid;
+  flex: 0 0 31px;
+  width: 31px;
+  height: 31px;
+  place-items: center;
+  border-radius: 50%;
+  background: #e9f5e9;
+  color: #2f8244;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.meal-recommendation .recipe-ingredient-item.unavailable .recipe-ingredient-icon {
+  background: #fff2df;
+  color: #b66a17;
+}
+
+.meal-recommendation .recipe-ingredient-main > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.meal-recommendation .recipe-ingredient-main strong {
+  color: #344c38;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.meal-recommendation .recipe-ingredient-main span {
+  color: #839086;
+  font-size: 11px;
+}
+
+.meal-recommendation .recipe-stock-status {
+  flex: 0 0 auto;
+  padding: 6px 9px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.meal-recommendation .recipe-stock-status.available {
+  background: #e8f5e8;
+  color: #2d773e;
+}
+
+.meal-recommendation .recipe-stock-status.unavailable {
+  background: #fff1df;
+  color: #a96113;
+}
+
+.meal-recommendation .recipe-preparation-section {
+  margin-top: 25px;
+}
+
+.meal-recommendation .preparation-title-row {
+  margin-bottom: 14px;
+}
+
+.meal-recommendation .recipe-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.meal-recommendation .recipe-steps-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px;
+  border: 1px solid #e5ebe2;
+  border-radius: 11px;
+  background: #fff;
+  color: #536357;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.meal-recommendation .recipe-step-number {
+  display: grid;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 50%;
+  background: #e8f4e8;
+  color: var(--mr-green-dark);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.meal-recommendation .recipe-no-steps {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px;
+  border: 1px dashed #d8e4d5;
+  border-radius: 11px;
+  background: #fbfdf9;
+}
+
+.meal-recommendation .recipe-no-steps > span {
+  font-size: 24px;
+}
+
+.meal-recommendation .recipe-no-steps p {
+  margin: 0;
+  color: #6d7c70;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.meal-recommendation .recipe-modal-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 23px;
+  border-top: 1px solid #e7ede4;
+  background: #fff;
+}
+
+.meal-recommendation .recipe-modal-footer button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 125px;
+  min-height: 41px;
+  padding: 9px 15px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.meal-recommendation .recipe-close-footer-btn {
+  border: 1px solid #dce6da;
+  background: #fff;
+  color: #526456;
+}
+
+.meal-recommendation .recipe-cook-footer-btn {
+  border: 1px solid var(--mr-green);
+  background: var(--mr-green);
+  color: #fff;
+}
+
+.meal-recommendation .recipe-cook-footer-btn:hover {
+  background: var(--mr-green-dark);
+}
+
+/* Meal image preview */
+.meal-recommendation .meal-image-preview-overlay {
+  z-index: 1100;
+}
+
+.meal-recommendation .meal-image-preview-dialog {
+  width: min(92vw, 760px) !important;
+  max-height: 90dvh;
+  overflow: auto;
+}
+
+.meal-recommendation .meal-image-preview-dialog img {
+  max-height: calc(90dvh - 90px) !important;
+}
+
+/* Smart suggestions note */
+.meal-recommendation .meal-ai-note {
+  margin-top: 27px;
+  padding: 20px 22px;
+  border: 1px solid #e3eadd;
+  border-radius: 16px;
+  background: linear-gradient(110deg, #f2f8ef, #fff8ed);
+}
+
+.meal-recommendation .meal-ai-note h2 {
+  margin: 0 0 8px;
+  color: var(--mr-green-dark);
+  font-size: 18px;
+}
+
+.meal-recommendation .meal-ai-note p {
+  margin: 0;
+  color: #66766a;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* Keyboard focus */
+.meal-recommendation button:focus-visible,
+.meal-recommendation [role="button"]:focus-visible {
+  outline: 3px solid rgba(48, 130, 70, .28);
+  outline-offset: 2px;
 }
 
 /* Tablet */
-
 @media (max-width: 900px) {
-  .meal-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .meal-recommendation {
+    padding: 18px;
+  }
+
+  .meal-recommendation .meal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+  }
+
+  .meal-recommendation .meal-image {
+    height: 170px;
+  }
+
+  .meal-recommendation .recipe-hero {
+    grid-template-columns: 210px minmax(0, 1fr);
   }
 }
 
 /* Mobile */
-
 @media (max-width: 600px) {
-  .meal-grid {
-    grid-template-columns: 1fr;
+  .meal-recommendation {
+    padding: 12px;
+  }
+
+  .meal-recommendation .page-title {
+    margin-bottom: 16px;
+    padding: 19px 17px;
+    border-radius: 15px;
   }
 
   .meal-recommendation .page-title h1 {
-    font-size: 26px;
+    font-size: 24px;
   }
 
-  .meal-image {
-    height: 160px;
+  .meal-recommendation .page-title p {
+    font-size: 13px;
+  }
+
+  .meal-recommendation .available-ingredients {
+    margin-bottom: 16px;
+    padding: 15px;
+    border-radius: 15px;
+  }
+
+  .meal-recommendation .available-ingredients-heading {
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .meal-recommendation .available-ingredients-title-wrap {
+    gap: 9px;
+  }
+
+  .meal-recommendation .available-ingredients-icon {
+    flex-basis: 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    font-size: 21px;
+  }
+
+  .meal-recommendation .available-ingredients-heading h2 {
+    font-size: 17px;
+  }
+
+  .meal-recommendation .available-ingredients-heading p {
+    font-size: 11px;
+  }
+
+  .meal-recommendation .ingredients-view-all {
+    min-height: 33px;
+    padding: 6px 9px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .meal-recommendation .ingredient-search-wrap {
+    max-width: none;
+  }
+
+  .meal-recommendation .ingredient-list {
+    gap: 7px;
+  }
+
+  .meal-recommendation .ingredient-chip {
+    gap: 6px;
+    min-height: 38px;
+    padding: 7px 9px;
+  }
+
+  .meal-recommendation .ingredient-chip-name {
+    font-size: 12px;
+  }
+
+  .meal-recommendation .ingredient-chip-quantity {
+    font-size: 10px;
+  }
+
+  .meal-recommendation .refresh-ingredients-btn {
+    width: 100%;
+  }
+
+  .meal-recommendation .add-meal-trigger {
+    margin-bottom: 20px;
+  }
+
+  .meal-recommendation .add-own-meal-btn {
+    width: 100%;
+  }
+
+  .meal-recommendation .meal-section > h2 {
+    font-size: 22px;
+  }
+
+  .meal-recommendation .meal-section > div[style*="display: grid"] {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    padding: 13px !important;
+  }
+
+  .meal-recommendation .meal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+  }
+
+  .meal-recommendation .meal-image {
+    height: 125px;
+    font-size: 43px;
+  }
+
+  .meal-recommendation .meal-match-badge {
+    bottom: 7px;
+    left: 7px;
+    min-height: 23px;
+    padding: 4px 7px;
+    font-size: 9px;
+  }
+
+  .meal-recommendation .meal-content {
+    padding: 11px;
+  }
+
+  .meal-recommendation .meal-content h3 {
+    font-size: 14px;
+  }
+
+  .meal-recommendation .meal-content > p {
+    font-size: 11px;
+  }
+
+  .meal-recommendation .meal-details {
+    gap: 5px 8px;
+    margin-top: 9px;
+    font-size: 10px;
+  }
+
+  .meal-recommendation .meal-content > button {
+    min-height: 36px;
+    margin-top: 7px;
+    padding: 7px 5px;
+    font-size: 10px;
+  }
+
+  .meal-recommendation .meal-card-menu-wrap > button {
+    width: 31px !important;
+    height: 31px !important;
+  }
+
+  .meal-recommendation .meal-card-menu-wrap > div {
+    width: 165px !important;
+  }
+
+  .meal-recommendation .meal-card-menu-wrap > div button {
+    font-size: 11px !important;
+  }
+
+  .meal-recommendation .add-meal-modal-overlay,
+  .meal-recommendation .recipe-modal-overlay {
+    align-items: flex-start;
+    padding: 8px;
+  }
+
+  .meal-recommendation .add-meal-modal,
+  .meal-recommendation .recipe-modal {
+    width: 100%;
+    max-height: calc(100dvh - 16px);
+    border-radius: 15px;
+  }
+
+  .meal-recommendation .add-meal-modal-header,
+  .meal-recommendation .recipe-modal-header {
+    padding: 14px;
+  }
+
+  .meal-recommendation .add-meal-modal-header h2 {
+    font-size: 18px;
+  }
+
+  .meal-recommendation .add-meal-modal-header p {
+    font-size: 11px;
+  }
+
+  .meal-recommendation .add-meal-form {
+    padding: 16px 14px 18px;
+  }
+
+  .meal-recommendation .add-meal-form-grid {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+
+  .meal-recommendation .ingredients-heading-row,
+  .meal-recommendation .preparation-steps-heading {
+    align-items: flex-start;
+  }
+
+  .meal-recommendation .ingredients-heading-row h3,
+  .meal-recommendation .preparation-steps-heading h3 {
+    font-size: 15px;
+  }
+
+  .meal-recommendation .ingredients-heading-row p,
+  .meal-recommendation .preparation-steps-heading p {
+    font-size: 11px;
+  }
+
+  .meal-recommendation .add-ingredient-btn,
+  .meal-recommendation .add-preparation-step-btn {
+    min-height: 35px;
+    padding: 7px 9px;
+    font-size: 10px;
+  }
+
+  .meal-recommendation .ingredient-form-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+    padding: 11px;
+  }
+
+  .meal-recommendation .ingredient-form-row .form-field:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .meal-recommendation .ingredient-form-row .remove-ingredient-btn {
+    grid-column: 2;
+    justify-self: end;
+    width: 100%;
+    height: 36px;
+  }
+
+  .meal-recommendation .preparation-step-field {
+    grid-template-columns: 27px minmax(0, 1fr) 32px;
+    gap: 7px;
+    padding: 8px;
+  }
+
+  .meal-recommendation .preparation-step-number {
+    width: 26px;
+    height: 26px;
+  }
+
+  .meal-recommendation .remove-preparation-step-btn {
+    width: 32px;
+    height: 36px;
+  }
+
+  .meal-recommendation .add-meal-form-actions {
+    bottom: -18px;
+    margin: 20px -14px -18px;
+    padding: 12px 14px;
+  }
+
+  .meal-recommendation .cancel-meal-btn,
+  .meal-recommendation .save-meal-btn {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .meal-recommendation .recipe-hero {
+    grid-template-columns: 1fr;
+    gap: 13px;
+    padding: 14px;
+  }
+
+  .meal-recommendation .recipe-hero-image {
+    height: 165px;
+  }
+
+  .meal-recommendation .recipe-hero-info h2 {
+    font-size: 20px;
+  }
+
+  .meal-recommendation .recipe-modal-body {
+    padding: 15px 14px 18px;
+  }
+
+  .meal-recommendation .recipe-availability-card {
+    padding: 13px;
+    margin-bottom: 19px;
+  }
+
+  .meal-recommendation .recipe-section-title-row h3 {
+    font-size: 15px;
+  }
+
+  .meal-recommendation .recipe-section-title-row p {
+    font-size: 10px;
+  }
+
+  .meal-recommendation .recipe-ingredient-item {
+    padding: 10px;
+  }
+
+  .meal-recommendation .recipe-ingredient-main {
+    gap: 8px;
+  }
+
+  .meal-recommendation .recipe-ingredient-main strong {
+    font-size: 12px;
+  }
+
+  .meal-recommendation .recipe-stock-status {
+    padding: 5px 7px;
+    font-size: 9px;
+  }
+
+  .meal-recommendation .recipe-modal-footer {
+    padding: 11px 14px;
+  }
+
+  .meal-recommendation .recipe-modal-footer button {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 7px;
+    font-size: 11px;
+  }
+
+  .meal-recommendation .meal-ai-note {
+    margin-top: 20px;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .meal-recommendation .meal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .meal-recommendation .meal-image {
+    height: 175px;
+  }
+
+  .meal-recommendation .meal-content {
+    padding: 14px;
+  }
+
+  .meal-recommendation .meal-content h3 {
+    font-size: 16px;
+  }
+
+  .meal-recommendation .meal-content > button {
+    font-size: 12px;
+  }
+
+  .meal-recommendation .available-ingredients-heading {
+    flex-wrap: wrap;
+  }
+
+  .meal-recommendation .ingredients-view-all {
+    margin-left: 49px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .meal-recommendation *,
+  .meal-recommendation *::before,
+  .meal-recommendation *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+
+/* =========================================================
+   ADD NEW MEAL — MOCKUP-MATCHING LAYOUT OVERRIDES
+   These rules only restyle the existing Add Meal JSX.
+   No JSX handlers, state, API calls or functionality changed.
+   ========================================================= */
+
+.meal-recommendation .add-meal-modal {
+  width: min(100%, 820px);
+  border-radius: 22px;
+  background: #fff;
+}
+
+.meal-recommendation .add-meal-modal-header {
+  padding: 17px 24px;
+  background: linear-gradient(105deg, #f0f8ef 0%, #f8fcf7 100%);
+  border-bottom: 1px solid #e5eee4;
+}
+
+.meal-recommendation .add-meal-modal-header h2 {
+  color: #075b24;
+  font-size: 25px;
+  font-weight: 850;
+  letter-spacing: -.45px;
+}
+
+.meal-recommendation .add-meal-modal-header p {
+  color: #4f5c52;
+  font-size: 14px;
+}
+
+.meal-recommendation .add-meal-close-btn {
+  width: 42px;
+  height: 42px;
+  flex-basis: 42px;
+  border: 0;
+  background: #d9f1d3;
+  color: #075b24;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.meal-recommendation .add-meal-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 24px;
+  row-gap: 0;
+  padding: 20px 24px 24px;
+  background: #fff;
+}
+
+.meal-recommendation .add-meal-form > .form-field.full-width {
+  min-width: 0;
+  margin: 0 0 17px;
+}
+
+.meal-recommendation .add-meal-form > .form-field.full-width:first-child {
+  grid-column: 1;
+  grid-row: 1;
+  padding-right: 0;
+}
+
+.meal-recommendation .add-meal-form > .meal-image-picker-field {
+  grid-column: 2;
+  grid-row: 1;
+  padding-left: 24px;
+  border-left: 1px solid #e7eee6;
+}
+
+.meal-recommendation .add-meal-form > .form-field.full-width label {
+  margin-bottom: 3px;
+  color: #075b24;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.meal-recommendation .add-meal-form > .form-field.full-width:first-child input {
+  min-height: 49px;
+  padding: 11px 15px;
+  border: 1px solid #91bfa0;
+  border-radius: 12px;
+  background: #fff;
+  font-size: 16px;
+}
+
+.meal-recommendation .meal-image-picker-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meal-recommendation .meal-gallery-open-button {
+  min-height: 92px;
+  justify-content: center;
+  padding: 10px;
+  border: 1.5px dashed #36a65a;
+  border-radius: 13px;
+  background: #fbfffb;
+  color: #075b24;
+  text-align: center;
+}
+
+.meal-recommendation .meal-gallery-open-button > span:last-child {
+  align-items: center;
+  font-size: 13px;
+}
+
+.meal-recommendation .meal-gallery-open-button small {
+  color: #28633b;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.meal-recommendation .meal-gallery-open-icon {
+  width: 34px;
+  height: 34px;
+  flex-basis: 34px;
+  background: #edf8ed;
+  color: #08732d;
+}
+
+/* When an image is selected, show its preview beside the gallery action. */
+.meal-recommendation .meal-image-picker-field:has(.selected-meal-image-preview) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .9fr);
+  grid-template-rows: auto auto;
+  align-items: start;
+  column-gap: 12px;
+}
+
+.meal-recommendation .meal-image-picker-field:has(.selected-meal-image-preview) > label {
+  grid-column: 1 / -1;
+}
+
+.meal-recommendation .meal-image-picker-field:has(.selected-meal-image-preview) .selected-meal-image-preview {
+  grid-column: 1;
+  grid-row: 2;
+  display: block;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #dce9dc;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.meal-recommendation .meal-image-picker-field:has(.selected-meal-image-preview) .selected-meal-image-preview img {
+  display: block;
+  width: 100%;
+  height: 92px;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+.meal-recommendation .meal-image-picker-field:has(.selected-meal-image-preview) .selected-meal-image-preview > div {
+  align-items: flex-start;
+  gap: 3px;
+  padding: 5px 7px;
+}
+
+.meal-recommendation .meal-image-picker-field:has(.selected-meal-image-preview) .selected-meal-image-preview strong {
+  font-size: 10px;
+}
+
+.meal-recommendation .meal-image-picker-field:has(.selected-meal-image-preview) .clear-meal-image {
+  font-size: 10px;
+}
+
+.meal-recommendation .meal-image-picker-field:has(.selected-meal-image-preview) > .meal-gallery-open-button {
+  grid-column: 2;
+  grid-row: 2;
+  min-height: 92px;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Two-column fields, as in the supplied reference design. */
+.meal-recommendation .add-meal-form > .add-meal-form-grid {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 22px;
+  margin: 0 0 22px;
+  padding-top: 15px;
+  border-top: 1px solid #e8eee7;
+}
+
+.meal-recommendation .add-meal-form-grid .form-field {
+  gap: 7px;
+}
+
+.meal-recommendation .add-meal-form-grid .form-field label {
+  color: #243d2a;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.meal-recommendation .add-meal-form-grid .form-field input,
+.meal-recommendation .add-meal-form-grid .form-field select {
+  min-height: 47px;
+  padding: 10px 13px;
+  border: 1px solid #8bb99a;
+  border-radius: 11px;
+  background-color: #fff;
+  font-size: 15px;
+}
+
+/* Green section bars for Ingredients and Preparation. */
+.meal-recommendation .add-meal-form > .ingredients-heading-row,
+.meal-recommendation .add-meal-form > .preparation-steps-editor {
+  grid-column: 1 / -1;
+}
+
+.meal-recommendation .add-meal-form > .ingredients-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 1px -10px 12px;
+  padding: 9px 13px;
+  border-radius: 13px;
+  background: linear-gradient(90deg, #e5f5e5, #f2faf0);
+}
+
+.meal-recommendation .ingredients-heading-row h3,
+.meal-recommendation .preparation-steps-heading h3 {
+  margin: 0;
+  color: #064e20;
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.meal-recommendation .ingredients-heading-row p,
+.meal-recommendation .preparation-steps-heading p {
+  display: none;
+}
+
+.meal-recommendation .add-ingredient-btn,
+.meal-recommendation .add-preparation-step-btn {
+  min-height: 36px;
+  padding: 7px 13px;
+  border: 1.5px solid #08752c;
+  border-radius: 10px;
+  background: #fff;
+  color: #075b24;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.meal-recommendation .ingredient-form-list {
+  grid-column: 1 / -1;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid #a9cdb4;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.meal-recommendation .ingredient-form-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(90px, .8fr) minmax(100px, .9fr) 34px;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 11px;
+  border: 0;
+  border-bottom: 1px solid #e3ebe3;
+  border-radius: 0;
+  background: #fff;
+}
+
+.meal-recommendation .ingredient-form-row:last-child {
+  border-bottom: 0;
+}
+
+.meal-recommendation .ingredient-form-row .form-field {
+  gap: 4px;
+}
+
+.meal-recommendation .ingredient-form-row .form-field label {
+  color: #334238;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.meal-recommendation .ingredient-form-row .form-field input,
+.meal-recommendation .ingredient-form-row .form-field select {
+  min-height: 38px;
+  padding: 7px 10px;
+  border: 1px solid #a4c9ad;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.meal-recommendation .remove-ingredient-btn {
+  width: 32px;
+  height: 36px;
+  flex-basis: 32px;
+  border: 0;
+  background: transparent;
+  color: #e32626;
+  font-size: 19px;
+}
+
+/* Numbered preparation-step editor, preserving editable textareas. */
+.meal-recommendation .add-meal-form > .preparation-steps-editor {
+  margin-top: 22px;
+}
+
+.meal-recommendation .preparation-steps-heading {
+  margin: 0 -10px 12px;
+  padding: 9px 13px;
+  border-radius: 13px;
+  background: linear-gradient(90deg, #e5f5e5, #f2faf0);
+}
+
+.meal-recommendation .preparation-steps-heading h3 {
+  font-size: 17px;
+}
+
+.meal-recommendation .preparation-step-fields {
+  gap: 0;
+  padding: 8px 12px;
+  border: 1px solid #a9cdb4;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.meal-recommendation .preparation-step-field {
+  grid-template-columns: 30px minmax(0, 1fr) 32px;
+  gap: 9px;
+  padding: 5px 3px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.meal-recommendation .preparation-step-number {
+  width: 29px;
+  height: 29px;
+  background: linear-gradient(145deg, #75b94d, #23833b);
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(35, 110, 49, .2);
+}
+
+.meal-recommendation .preparation-step-field textarea {
+  min-height: 39px;
+  padding: 8px 10px;
+  border: 1px solid #e4ebe2;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  resize: vertical;
+}
+
+.meal-recommendation .remove-preparation-step-btn {
+  width: 30px;
+  height: 32px;
+  flex-basis: 30px;
+  border: 0;
+  background: transparent;
+}
+
+/* Feedback and large bottom actions. */
+.meal-recommendation .add-meal-form > .meal-form-message,
+.meal-recommendation .add-meal-form > .add-meal-form-actions {
+  grid-column: 1 / -1;
+}
+
+.meal-recommendation .add-meal-form-actions {
+  position: static;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 25px -10px -8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.meal-recommendation .cancel-meal-btn,
+.meal-recommendation .save-meal-btn {
+  min-height: 58px;
+  border-radius: 17px;
+  font-size: 17px;
+  font-weight: 850;
+}
+
+.meal-recommendation .cancel-meal-btn {
+  border: 1.5px solid #08752c;
+  background: #fff;
+  color: #075b24;
+}
+
+.meal-recommendation .save-meal-btn {
+  border: 1.5px solid #08752c;
+  background: linear-gradient(100deg, #087c2c, #006c26);
+  color: #fff;
+  box-shadow: 0 5px 12px rgba(0, 105, 37, .14);
+}
+
+/* Mobile form adaptation */
+@media (max-width: 600px) {
+  .meal-recommendation .add-meal-modal {
+    border-radius: 15px;
+  }
+
+  .meal-recommendation .add-meal-modal-header {
+    padding: 13px 14px;
+  }
+
+  .meal-recommendation .add-meal-modal-header h2 {
+    font-size: 19px;
+  }
+
+  .meal-recommendation .add-meal-form {
+    display: block;
+    padding: 15px 13px 18px;
+  }
+
+  .meal-recommendation .add-meal-form > .form-field.full-width:first-child {
+    margin-bottom: 15px;
+  }
+
+  .meal-recommendation .add-meal-form > .meal-image-picker-field {
+    margin-bottom: 18px;
+    padding: 0;
+    border-left: 0;
+  }
+
+  .meal-recommendation .meal-image-picker-field:has(.selected-meal-image-preview) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .meal-recommendation .add-meal-form > .add-meal-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px 10px;
+    margin-bottom: 18px;
+    padding-top: 14px;
+  }
+
+  .meal-recommendation .add-meal-form-grid .form-field label {
+    font-size: 12px;
+  }
+
+  .meal-recommendation .add-meal-form-grid .form-field input,
+  .meal-recommendation .add-meal-form-grid .form-field select {
+    min-height: 42px;
+    padding: 8px 9px;
+    font-size: 13px;
+  }
+
+  .meal-recommendation .add-meal-form > .ingredients-heading-row,
+  .meal-recommendation .preparation-steps-heading {
+    margin-right: 0;
+    margin-left: 0;
+    padding: 9px 10px;
+  }
+
+  .meal-recommendation .ingredients-heading-row h3,
+  .meal-recommendation .preparation-steps-heading h3 {
+    font-size: 15px;
+  }
+
+  .meal-recommendation .add-ingredient-btn,
+  .meal-recommendation .add-preparation-step-btn {
+    min-height: 33px;
+    padding: 6px 8px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .meal-recommendation .ingredient-form-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, .8fr) 30px;
+    gap: 7px;
+    padding: 8px;
+  }
+
+  .meal-recommendation .ingredient-form-row .form-field:first-child {
+    grid-column: auto;
+  }
+
+  .meal-recommendation .ingredient-form-row .form-field label {
+    font-size: 10px;
+  }
+
+  .meal-recommendation .ingredient-form-row .form-field input,
+  .meal-recommendation .ingredient-form-row .form-field select {
+    min-height: 36px;
+    padding: 6px;
+    font-size: 11px;
+  }
+
+  .meal-recommendation .ingredient-form-row .remove-ingredient-btn {
+    grid-column: auto;
+    width: 29px;
+    height: 34px;
+  }
+
+  .meal-recommendation .add-meal-form > .preparation-steps-editor {
+    margin-top: 18px;
+  }
+
+  .meal-recommendation .preparation-step-fields {
+    padding: 7px;
+  }
+
+  .meal-recommendation .preparation-step-field {
+    grid-template-columns: 25px minmax(0, 1fr) 27px;
+    gap: 6px;
+  }
+
+  .meal-recommendation .preparation-step-number {
+    width: 25px;
+    height: 25px;
+    font-size: 11px;
+  }
+
+  .meal-recommendation .preparation-step-field textarea {
+    min-height: 42px;
+    padding: 7px;
+    font-size: 11px;
+  }
+
+  .meal-recommendation .remove-preparation-step-btn {
+    width: 26px;
+    height: 30px;
+  }
+
+  .meal-recommendation .add-meal-form-actions {
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin: 20px 0 0;
+  }
+
+  .meal-recommendation .cancel-meal-btn,
+  .meal-recommendation .save-meal-btn {
+    min-height: 47px;
+    padding: 8px 6px;
+    border-radius: 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 380px) {
+  .meal-recommendation .add-meal-form-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .meal-recommendation .ingredient-form-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, .75fr) 27px;
+  }
+
+  .meal-recommendation .meal-image-picker-field:has(.selected-meal-image-preview) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 7px;
+  }
+}
+
+
+
+
+
+/* FIX: Add New Meal modal scrolling and bottom buttons */
+
+.meal-recommendation .add-meal-modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow-y: auto !important;
+  padding: 15px !important;
+}
+
+.meal-recommendation .add-meal-modal {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 90dvh !important;
+  max-height: 90dvh !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.meal-recommendation .add-meal-modal-header {
+  flex: 0 0 auto !important;
+}
+
+.meal-recommendation .add-meal-form {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.meal-recommendation .add-meal-form-actions {
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 20 !important;
+  flex-shrink: 0 !important;
+  background: #ffffff !important;
+}
+
+/* Mobile fix */
+@media (max-width: 600px) {
+  .meal-recommendation .add-meal-modal-overlay {
+    align-items: flex-start !important;
+    padding: 10px 8px 85px !important;
+  }
+
+  .meal-recommendation .add-meal-modal {
+    width: 100% !important;
+    height: calc(100dvh - 105px) !important;
+    max-height: calc(100dvh - 105px) !important;
+    min-height: 0 !important;
+    margin: 0 auto !important;
+  }
+
+  .meal-recommendation .add-meal-form {
+    display: block !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    padding-bottom: 15px !important;
+  }
+
+  .meal-recommendation .add-meal-form-actions {
+    position: sticky !important;
+    bottom: 0 !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    margin: 15px 0 0 !important;
+    padding: 12px 0 5px !important;
+    background: #ffffff !important;
+  }
+}
+
+
+
+
+/* FIX: Cancel and Save Meal should scroll with the form */
+
+.meal-recommendation .add-meal-form {
+    display: block !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    min-height: 0 !important;
+    flex: 1 1 auto !important;
+    scroll-behavior: smooth;
+}
+
+.meal-recommendation .add-meal-form-actions {
+    position: static !important;
+    bottom: auto !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    width: 100% !important;
+    margin: 25px 0 5px !important;
+    padding: 15px 0 5px !important;
+    border-top: 1px solid #e2eae1 !important;
+    background: transparent !important;
+    z-index: auto !important;
+}
+
+.meal-recommendation .cancel-meal-btn,
+.meal-recommendation .save-meal-btn {
+    position: static !important;
+    width: 100% !important;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .meal-recommendation .add-meal-form-actions {
+        position: static !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        margin: 20px 0 5px !important;
+        padding: 12px 0 5px !important;
+    }
+}
+
+
+
+
+
+/* FIX: Keep ingredient delete button beside Unit */
+
+.meal-recommendation .ingredient-form-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.85fr) minmax(0, 1fr) 32px !important;
+    align-items: end !important;
+    gap: 8px !important;
+}
+
+.meal-recommendation .ingredient-form-row .form-field {
+    min-width: 0 !important;
+    grid-column: auto !important;
+}
+
+.meal-recommendation .ingredient-form-row .remove-ingredient-btn {
+    grid-column: 4 !important;
+    grid-row: 1 !important;
+    align-self: end !important;
+    justify-self: center !important;
+    width: 30px !important;
+    height: 38px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: grid !important;
+    place-items: center !important;
+    border: none !important;
+    background: transparent !important;
+    color: #e32626 !important;
+    font-size: 20px !important;
+}
+
+/* Mobile alignment */
+@media (max-width: 600px) {
+    .meal-recommendation .ingredient-form-row {
+        grid-template-columns: minmax(0, 1fr) minmax(0, .8fr) minmax(0, 1fr) 26px !important;
+        gap: 5px !important;
+        align-items: end !important;
+    }
+
+    .meal-recommendation .ingredient-form-row .form-field:first-child {
+        grid-column: auto !important;
+    }
+
+    .meal-recommendation .ingredient-form-row .remove-ingredient-btn {
+        grid-column: 4 !important;
+        grid-row: 1 !important;
+        width: 26px !important;
+        height: 36px !important;
+    }
+}
+
+
+/* =========================================================
+   FINAL TARGETED FIX: Add New Meal form scroll area
+   Keeps the header visible while the complete form content
+   (Meal Name through Ingredients and Preparation Steps) scrolls.
+   Cancel and Save Meal remain part of the scrolling content.
+   ========================================================= */
+
+.meal-recommendation .add-meal-modal {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+.meal-recommendation .add-meal-modal-header {
+    flex: 0 0 auto !important;
+}
+
+.meal-recommendation .add-meal-form {
+    display: block !important;
+    flex: 1 1 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+.meal-recommendation .add-meal-form-actions {
+    position: static !important;
+    bottom: auto !important;
+    z-index: auto !important;
+    margin: 25px 0 5px !important;
+    padding: 15px 0 5px !important;
+    background: transparent !important;
+}
+
+@media (max-width: 600px) {
+    .meal-recommendation .add-meal-modal {
+        height: calc(100dvh - 105px) !important;
+        max-height: calc(100dvh - 105px) !important;
+        min-height: 0 !important;
+    }
+
+    .meal-recommendation .add-meal-form {
+        display: block !important;
+        flex: 1 1 0 !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        padding-bottom: 15px !important;
+    }
+
+    .meal-recommendation .add-meal-form-actions {
+        position: static !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        margin: 20px 0 5px !important;
+        padding: 12px 0 5px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/* FILTERS — Display both filters in one row */
+.meal-recommendation .meal-section > div[style*="display: grid"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    width: 100% !important;
+}
+
+.meal-recommendation .meal-section > div[style*="display: grid"] > div {
+    min-width: 0 !important;
+}
+
+/* MEAL CARDS — One card per row on mobile */
+@media (max-width: 600px) {
+    .meal-recommendation .meal-grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+
+    .meal-recommendation .meal-image {
+        height: 190px !important;
+    }
+
+    .meal-recommendation .meal-content {
+        padding: 15px !important;
+    }
+
+    .meal-recommendation .meal-content h3 {
+        font-size: 17px !important;
+    }
+
+    .meal-recommendation .meal-content > button {
+        font-size: 13px !important;
+    }
+}
+
+
+
+
+
+
+/* Centre Meal Image Preview Popup */
+
+.meal-recommendation .meal-image-preview-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 1100 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 16px !important;
+    overflow-y: auto !important;
+    background: rgba(15, 35, 22, 0.65) !important;
+    backdrop-filter: blur(6px);
+}
+
+.meal-recommendation .meal-image-preview-dialog {
+    position: relative !important;
+    margin: auto !important;
+    width: min(92%, 600px) !important;
+    max-height: 85dvh !important;
+    overflow: auto !important;
+    border-radius: 18px !important;
+}
+
+.meal-recommendation .meal-image-preview-dialog img {
+    display: block !important;
+    width: 100% !important;
+    max-height: 75dvh !important;
+    object-fit: contain !important;
+}
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   MOBILE RECIPE DETAILS — COMPACT AVAILABILITY + INGREDIENTS
+   These selectors match the actual JSX classes above.
+   ========================================================= */
+@media (max-width: 600px) {
+  .meal-recommendation .recipe-modal-body {
+    padding: 10px 12px 14px !important;
+  }
+
+  .meal-recommendation .recipe-availability-card {
+    margin: 0 0 12px !important;
+    padding: 9px 11px !important;
+    border-radius: 11px !important;
+  }
+
+  .meal-recommendation .recipe-availability-heading {
+    gap: 7px !important;
+    margin-bottom: 7px !important;
+    font-size: 12px !important;
+  }
+
+  .meal-recommendation .recipe-availability-check {
+    width: 22px !important;
+    height: 22px !important;
+    font-size: 12px !important;
+  }
+
+  .meal-recommendation .recipe-availability-track {
+    height: 7px !important;
+  }
+
+  .meal-recommendation .recipe-availability-summary {
+    gap: 6px !important;
+    margin-top: 6px !important;
+    font-size: 10px !important;
+  }
+
+  .meal-recommendation .recipe-availability-summary strong {
+    font-size: 12px !important;
+  }
+
+  .meal-recommendation .recipe-section-title-row {
+    gap: 8px !important;
+    margin: 0 0 8px !important;
+  }
+
+  .meal-recommendation .recipe-section-title-row h3 {
+    margin: 0 0 2px !important;
+    font-size: 14px !important;
+    line-height: 1.25 !important;
+  }
+
+  .meal-recommendation .recipe-section-title-row p {
+    font-size: 9px !important;
+    line-height: 1.25 !important;
+  }
+
+  .meal-recommendation .recipe-ingredient-count {
+    padding: 5px 8px !important;
+    font-size: 10px !important;
+  }
+
+  .meal-recommendation .recipe-ingredient-list {
+    gap: 6px !important;
+  }
+
+  .meal-recommendation .recipe-ingredient-item {
+    min-height: 50px !important;
+    gap: 8px !important;
+    padding: 7px 9px !important;
+    border-radius: 9px !important;
+  }
+
+  .meal-recommendation .recipe-ingredient-main {
+    gap: 7px !important;
+  }
+
+  .meal-recommendation .recipe-ingredient-icon {
+    flex-basis: 25px !important;
+    width: 25px !important;
+    height: 25px !important;
+    font-size: 12px !important;
+  }
+
+  .meal-recommendation .recipe-ingredient-main > div:last-child {
+    gap: 2px !important;
+  }
+
+  .meal-recommendation .recipe-ingredient-main strong {
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+
+  .meal-recommendation .recipe-ingredient-main span {
+    font-size: 9px !important;
+    line-height: 1.2 !important;
+  }
+
+  .meal-recommendation .recipe-stock-status {
+    padding: 5px 7px !important;
+    font-size: 9px !important;
+  }
+}
+
+
+
+
+
+
+
+
+/* =========================================================
+   COMMUNITY RECIPES — PROMINENT ENTRY CARD
+   This styles the existing JSX button; no JSX changes needed.
+   ========================================================= */
+
+.meal-recommendation .open-community-recipes-btn {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  gap: 9px !important;
+  width: 100% !important;
+  min-height: 112px !important;
+  margin: 0 0 22px !important;
+  padding: 20px 22px !important;
+
+  border: 1px solid #176b42 !important;
+  border-radius: 16px !important;
+  background: linear-gradient(120deg, #176b42 0%, #258653 100%) !important;
+  color: #ffffff !important;
+
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  line-height: 1.35 !important;
+  text-align: left !important;
+  white-space: normal !important;
+
+  box-shadow: 0 7px 18px rgba(23, 107, 66, 0.20) !important;
+  cursor: pointer !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease !important;
+}
+
+.meal-recommendation .open-community-recipes-btn::after {
+  content: "Discover and try recipes shared by other families  →";
+  display: block !important;
+  color: #e8f6eb !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.45 !important;
+}
+
+.meal-recommendation .open-community-recipes-btn:hover {
+  background: linear-gradient(120deg, #125b36 0%, #207748 100%) !important;
+  box-shadow: 0 10px 22px rgba(23, 107, 66, 0.26) !important;
+  transform: translateY(-2px) !important;
+}
+
+.meal-recommendation .open-community-recipes-btn:active {
+  transform: scale(0.99) !important;
+}
+
+.meal-recommendation .open-community-recipes-btn:focus-visible {
+  outline: 3px solid #f2a34a !important;
+  outline-offset: 3px !important;
+}
+
+@media (max-width: 600px) {
+  .meal-recommendation .open-community-recipes-btn {
+    min-height: 102px !important;
+    margin-bottom: 17px !important;
+    padding: 16px 17px !important;
+    border-radius: 14px !important;
+    font-size: 15px !important;
+  }
+
+  .meal-recommendation .open-community-recipes-btn::after {
+    font-size: 11px !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+/* Floating Explore Community Recipes Button */
+.meal-recommendation .open-community-recipes-btn {
+    position: fixed !important;
+    right: 20px !important;
+    bottom: 95px !important;
+    z-index: 999 !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: auto !important;
+    min-height: 50px !important;
+    padding: 13px 20px !important;
+    margin: 0 !important;
+
+    background: linear-gradient(135deg, #176b42, #258653) !important;
+    color: #ffffff !important;
+
+    border: none !important;
+    border-radius: 30px !important;
+
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+
+    box-shadow: 0 5px 16px rgba(23, 107, 66, 0.30) !important;
+    cursor: pointer !important;
+}
+
+/* Hide the card description for the compact floating button */
+.meal-recommendation .open-community-recipes-btn::after {
+    display: none !important;
+}
+
+.meal-recommendation .open-community-recipes-btn:hover {
+    transform: translateY(-3px) !important;
+    background: #125b36 !important;
+}
+
+@media (max-width: 600px) {
+    .meal-recommendation .open-community-recipes-btn {
+        right: 14px !important;
+        bottom: 92px !important;
+        min-height: 46px !important;
+        padding: 11px 16px !important;
+        font-size: 12px !important;
+    }
+}
+
+
+
+/* =========================================================
+   COMMUNITY RECIPES — BACK TO MEAL RECOMMENDATIONS BUTTON
+   Scoped to the parent Meal Recommendation page.
+   ========================================================= */
+
+.meal-recommendation .community-recipes-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  margin: 4px 0 16px;
+  padding: 10px 17px;
+  border: 1px solid #cfe3d2;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #17643b;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(25, 91, 53, 0.07);
+  transition: background 0.2s ease, color 0.2s ease,
+              border-color 0.2s ease, transform 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.meal-recommendation .community-recipes-back:hover {
+  background: #eaf5ec;
+  border-color: #8fc6a0;
+  color: #0d5831;
+  box-shadow: 0 5px 14px rgba(25, 91, 53, 0.12);
+  transform: translateY(-1px);
+}
+
+.meal-recommendation .community-recipes-back:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(25, 91, 53, 0.08);
+}
+
+.meal-recommendation .community-recipes-back:focus-visible {
+  outline: 3px solid rgba(36, 116, 71, 0.25);
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  .meal-recommendation .community-recipes-back {
+    min-height: 40px;
+    margin: 2px 0 12px;
+    padding: 9px 13px;
+    border-radius: 10px;
+    font-size: 13px;
+  }
+}
+
+
+/* =========================================================
+   SHARE PERSONAL MEALS + MY COMMUNITY SUBMISSIONS
+   ========================================================= */
+.meal-recommendation .meal-content > .share-community-meal-btn {
+  border-color: #c9dfce;
+  background: linear-gradient(135deg, #edf8ef, #f7fbf3);
+  color: #17643b;
+}
+.meal-recommendation .meal-content > .share-community-meal-btn:hover {
+  border-color: #8fc6a0;
+  background: #e2f3e6;
+}
+.meal-recommendation .my-submissions-toolbar {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0 0 18px;
+}
+.meal-recommendation .my-submissions-toggle {
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 1px solid #d6e5d7;
+  border-radius: 11px;
+  background: #fff;
+  color: #17643b;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+.meal-recommendation .my-submissions-toggle:hover {
+  background: #edf7ee;
+  border-color: #a9cfad;
+}
+.meal-recommendation .my-submissions-panel {
+  margin: 0 0 24px;
+  padding: 20px;
+  border: 1px solid #dfeade;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(30, 70, 43, .06);
+}
+.meal-recommendation .my-submissions-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.meal-recommendation .my-submissions-heading h2 {
+  margin: 0 0 5px;
+  color: #155b35;
+  font-size: 20px;
+}
+.meal-recommendation .my-submissions-heading p,
+.meal-recommendation .my-submissions-empty {
+  margin: 0;
+  color: #718075;
+  font-size: 13px;
+}
+.meal-recommendation .my-submissions-heading > button {
+  padding: 8px 12px;
+  border: 1px solid #d6e5d7;
+  border-radius: 9px;
+  background: #f6fbf6;
+  color: #17643b;
+  font-weight: 700;
+  cursor: pointer;
+}
+.meal-recommendation .my-submissions-list {
+  display: grid;
+  gap: 11px;
+}
+.meal-recommendation .my-submission-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #e6eee5;
+  border-radius: 12px;
+  background: #fffefa;
+}
+.meal-recommendation .my-submission-card > img {
+  flex: 0 0 74px;
+  width: 74px;
+  height: 68px;
+  border-radius: 9px;
+  object-fit: cover;
+}
+.meal-recommendation .my-submission-info {
+  min-width: 0;
+}
+.meal-recommendation .my-submission-info h3 {
+  margin: 0 0 7px;
+  color: #244b30;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+.meal-recommendation .submission-status {
+  display: inline-flex;
+  padding: 4px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+.meal-recommendation .submission-pending { background: #fff4df; color: #925b0a; }
+.meal-recommendation .submission-approved { background: #e8f5e9; color: #216b35; }
+.meal-recommendation .submission-rejected { background: #fff0ee; color: #b33e35; }
+.meal-recommendation .submission-rejection-reason {
+  margin: 8px 0 0;
+  color: #a23b32;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.meal-recommendation .submission-resubmit-note {
+  margin: 5px 0 0;
+  color: #718075;
+  font-size: 11px;
+}
+@media (max-width: 600px) {
+  .meal-recommendation .my-submissions-panel { padding: 14px; }
+  .meal-recommendation .my-submissions-heading { align-items: flex-start; }
+  .meal-recommendation .my-submissions-heading h2 { font-size: 17px; }
+  .meal-recommendation .my-submission-card > img { flex-basis: 60px; width: 60px; height: 60px; }
+}
+
+
+/* =========================================================
+   SHARE WITH COMMUNITY — THEMED CONFIRMATION MODAL
+   ========================================================= */
+.meal-recommendation .share-community-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(18, 43, 27, .58);
+  backdrop-filter: blur(4px);
+}
+.meal-recommendation .share-community-modal {
+  position: relative;
+  width: min(100%, 430px);
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 25px;
+  border: 1px solid #dcebdc;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #fffef8 0%, #f4faf1 100%);
+  box-shadow: 0 22px 65px rgba(0, 0, 0, .25);
+  text-align: center;
+}
+.meal-recommendation .share-community-modal-icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 12px;
+  border-radius: 17px;
+  background: #e4f3e5;
+  font-size: 27px;
+}
+.meal-recommendation .share-community-modal h2 {
+  margin: 0 0 7px;
+  color: #175b36;
+  font-size: 21px;
+  font-weight: 850;
+}
+.meal-recommendation .share-community-meal-name {
+  margin: 0 0 15px;
+  color: #405b46;
+  font-size: 15px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+.meal-recommendation .share-community-preview-image {
+  display: block;
+  width: min(100%, 230px);
+  max-height: 145px;
+  margin: 0 auto 14px;
+  border-radius: 13px;
+  object-fit: cover;
+}
+.meal-recommendation .share-community-no-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 14px;
+  padding: 17px 14px;
+  border: 1px solid #f0d69e;
+  border-radius: 13px;
+  background: #fff7e6;
+  color: #8a5a0b;
+}
+.meal-recommendation .share-community-no-image > span { font-size: 27px; }
+.meal-recommendation .share-community-no-image strong { font-size: 14px; }
+.meal-recommendation .share-community-no-image small {
+  color: #876b3b;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.meal-recommendation .share-community-description {
+  margin: 0 0 19px;
+  color: #68776b;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.meal-recommendation .share-community-modal-actions {
+  display: flex;
+  gap: 10px;
+}
+.meal-recommendation .share-community-modal-actions button {
+  flex: 1;
+  min-height: 44px;
+  padding: 10px 13px;
+  border-radius: 11px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: .18s ease;
+}
+.meal-recommendation .share-community-modal-actions button:disabled {
+  cursor: wait;
+  opacity: .65;
+}
+.meal-recommendation .share-community-cancel {
+  border: 1px solid #d8e3d8;
+  background: #fff;
+  color: #526456;
+}
+.meal-recommendation .share-community-cancel:hover { background: #f0f5ef; }
+.meal-recommendation .share-community-confirm {
+  border: 1px solid #176b42;
+  background: linear-gradient(135deg, #176b42, #258653);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(23, 107, 66, .18);
+}
+.meal-recommendation .share-community-confirm:hover { background: #125b36; }
+@media (max-width: 480px) {
+  .meal-recommendation .share-community-modal { padding: 21px 17px; border-radius: 17px; }
+  .meal-recommendation .share-community-modal h2 { font-size: 19px; }
+  .meal-recommendation .share-community-modal-actions { flex-direction: column-reverse; }
+}
+
+
+/* Meal category navigation */
+.meal-type-tabs{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 12px;padding:8px;background:#f4f8f1;border:1px solid #e1eadc;border-radius:14px}
+.meal-type-tabs button{flex:1 1 120px;min-height:44px;border:1px solid #d9e7d7;border-radius:10px;background:#fff;color:#285b3d;font-weight:700;cursor:pointer;padding:10px 14px;transition:background .2s,border-color .2s,color .2s}
+.meal-type-tabs button span{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;margin-left:5px;padding:0 6px;border-radius:20px;background:#edf4e9;font-size:12px}
+.meal-type-tabs button.active{background:#187747;border-color:#187747;color:#fff;box-shadow:0 3px 9px rgba(24,119,71,.16)}
+.meal-type-tabs button.active span{background:rgba(255,255,255,.2);color:#fff}
+.meal-uncategorized-toggle{display:block;margin:0 0 18px;padding:9px 13px;border:1px dashed #d49a35;border-radius:9px;background:#fff9e9;color:#80520b;font-weight:650;cursor:pointer}
+.meal-uncategorized-toggle.active{background:#ffefc8;border-style:solid}
+.meal-type-empty{padding:24px;text-align:center;border:1px dashed #cbdcc9;border-radius:12px;background:#fbfdf9;color:#607568}
+.meal-type-card-badge{background:#e9f1ff;color:#28558c;padding:5px 10px;border-radius:20px;font-size:13px;font-weight:650}
+.meal-type-classifier{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:12px 0 4px;color:#385a45;font-size:13px;font-weight:650}
+.meal-type-classifier select{min-width:145px;max-width:100%;padding:8px 10px;border:1px solid #cbdcc9;border-radius:8px;background:#fff;color:#234b35;font:inherit}
+@media(max-width:600px){.meal-type-tabs{gap:7px;padding:7px}.meal-type-tabs button{flex:1 1 calc(50% - 7px);padding:9px 7px;font-size:13px}.meal-type-classifier{align-items:flex-start;flex-direction:column}.meal-type-classifier select{width:100%}}
+
+
+/* =========================================================
+   MEAL COOKING HISTORY
+   ========================================================= */
+.meal-recommendation .cooking-history-section {
+  margin: 0 0 24px;
+  padding: 18px 20px;
+  border: 1px solid #dfeade;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(30, 70, 43, .055);
+}
+.meal-recommendation .cooking-history-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.meal-recommendation .cooking-history-toolbar h2 {
+  margin: 0 0 5px;
+  color: #155b35;
+  font-size: 20px;
+}
+.meal-recommendation .cooking-history-toolbar p {
+  margin: 0;
+  color: #718075;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.meal-recommendation .cooking-history-toggle,
+.meal-recommendation .cooking-history-refresh,
+.meal-recommendation .cooking-history-load-more,
+.meal-recommendation .cooking-history-error button {
+  min-height: 39px;
+  padding: 9px 14px;
+  border: 1px solid #cfe2d1;
+  border-radius: 10px;
+  background: #f3faf3;
+  color: #155b35;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+.meal-recommendation .cooking-history-toggle:hover,
+.meal-recommendation .cooking-history-refresh:hover,
+.meal-recommendation .cooking-history-load-more:hover,
+.meal-recommendation .cooking-history-error button:hover {
+  background: #e8f4e8;
+}
+.meal-recommendation .cooking-history-panel {
+  margin-top: 17px;
+  padding-top: 16px;
+  border-top: 1px solid #e8eee5;
+}
+.meal-recommendation .cooking-history-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.meal-recommendation .cooking-history-controls label {
+  color: #405b47;
+  font-size: 13px;
+  font-weight: 700;
+}
+.meal-recommendation .cooking-history-controls select {
+  min-width: 170px;
+  min-height: 40px;
+  padding: 8px 34px 8px 11px;
+  border: 1px solid #dce7dc;
+  border-radius: 9px;
+  background: #fbfdfb;
+  color: #24352a;
+}
+.meal-recommendation .cooking-history-refresh { margin-left: auto; }
+.meal-recommendation .cooking-history-list { display: grid; gap: 10px; }
+.meal-recommendation .cooking-history-card {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid #e5eee3;
+  border-radius: 12px;
+  background: #fffefa;
+}
+.meal-recommendation .cooking-history-icon {
+  display: grid;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 12px;
+  background: #edf6eb;
+  font-size: 22px;
+}
+.meal-recommendation .cooking-history-details { min-width: 0; }
+.meal-recommendation .cooking-history-details h3 {
+  margin: 0 0 7px;
+  color: #244b30;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+.meal-recommendation .cooking-history-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px 13px;
+  color: #718075;
+  font-size: 12px;
+}
+.meal-recommendation .cooking-history-type {
+  display: inline-flex;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+}
+.meal-recommendation .cooking-history-type.custom { background: #eaf5ec; color: #21683a; }
+.meal-recommendation .cooking-history-type.global { background: #fff1e2; color: #99510e; }
+.meal-recommendation .cooking-history-message,
+.meal-recommendation .cooking-history-empty { color: #718075; font-size: 13px; }
+.meal-recommendation .cooking-history-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 25px 12px;
+  border: 1px dashed #d6e5d7;
+  border-radius: 12px;
+  background: #fbfdf9;
+  text-align: center;
+}
+.meal-recommendation .cooking-history-empty > span { font-size: 30px; }
+.meal-recommendation .cooking-history-empty strong { color: #31563b; }
+.meal-recommendation .cooking-history-empty p { margin: 0; color: #718075; font-size: 12px; }
+.meal-recommendation .cooking-history-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #f0d2cf;
+  border-radius: 10px;
+  background: #fff7f6;
+  color: #a23b32;
+  font-size: 13px;
+}
+.meal-recommendation .cooking-history-error p { margin: 0; }
+.meal-recommendation .cooking-history-load-more { display: block; margin: 15px auto 0; }
+.meal-recommendation .cooking-history-refresh:disabled,
+.meal-recommendation .cooking-history-load-more:disabled { opacity: .6; cursor: wait; }
+@media (max-width: 600px) {
+  .meal-recommendation .cooking-history-section { padding: 14px; }
+  .meal-recommendation .cooking-history-toolbar { align-items: flex-start; }
+  .meal-recommendation .cooking-history-toolbar h2 { font-size: 17px; }
+  .meal-recommendation .cooking-history-controls { align-items: stretch; flex-wrap: wrap; }
+  .meal-recommendation .cooking-history-controls label { flex-basis: 100%; }
+  .meal-recommendation .cooking-history-controls select { flex: 1 1 150px; min-width: 0; }
+  .meal-recommendation .cooking-history-refresh { margin-left: 0; }
+  .meal-recommendation .cooking-history-meta { gap: 6px 9px; }
+  .meal-recommendation .cooking-history-error { align-items: flex-start; flex-direction: column; }
+}
+
+
+/* =========================================================
+   HOME NEEDS — MOBILE-FIRST MEAL RECOMMENDATIONS POLISH
+   UI-only overrides. Existing component logic and handlers stay intact.
+   ========================================================= */
+.meal-recommendation .meal-welcome-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 150px;
+  margin: 0 0 18px;
+  padding: 25px 28px;
+  overflow: hidden;
+  border: 1px solid #dcebd9;
+  border-radius: 22px;
+  background: linear-gradient(115deg, #edf8eb 0%, #fff7e9 100%);
+}
+.meal-recommendation .meal-welcome-copy { position: relative; z-index: 1; min-width: 0; }
+.meal-recommendation .meal-welcome-eyebrow {
+  display: block; margin-bottom: 9px; color: #6b896f; font-size: 10px;
+  font-weight: 800; letter-spacing: 1.15px;
+}
+.meal-recommendation .meal-welcome-banner h1 {
+  margin: 0 0 7px; color: #195b35; font-size: clamp(25px, 3vw, 34px);
+  line-height: 1.15; font-weight: 850; letter-spacing: -.7px;
+}
+.meal-recommendation .meal-welcome-banner p { margin: 0; max-width: 620px; color: #526b57; font-size: 14px; line-height: 1.5; }
+.meal-recommendation .meal-welcome-banner small { display: block; margin-top: 7px; color: #819083; font-size: 11px; }
+.meal-recommendation .meal-welcome-art {
+  display: grid; flex: 0 0 105px; width: 105px; height: 105px; place-items: center;
+  border: 1px solid rgba(255,255,255,.85); border-radius: 28px;
+  background: rgba(255,255,255,.58); font-size: 59px;
+  box-shadow: 0 8px 22px rgba(42,91,48,.07); transform: rotate(5deg);
+}
+.meal-recommendation .open-community-recipes-btn,
+.meal-recommendation .my-submissions-toggle,
+.meal-recommendation .cooking-history-toggle { min-height: 42px; border-radius: 12px; font-weight: 750; }
+.meal-recommendation .my-submissions-toolbar { margin: 0 0 12px; }
+.meal-recommendation .cooking-history-section {
+  margin: 0 0 18px; padding: 15px 17px; border: 1px solid #e3ebe0;
+  border-radius: 16px; background: #fff; box-shadow: 0 5px 16px rgba(30,70,43,.045);
+}
+.meal-recommendation .cooking-history-toolbar { align-items: center; gap: 12px; }
+.meal-recommendation .cooking-history-toolbar h2 { margin: 0 0 4px; color: #285b37; font-size: 16px; }
+.meal-recommendation .cooking-history-toolbar p { margin: 0; color: #7a887d; font-size: 12px; }
+.meal-recommendation .available-ingredients { border-radius: 17px; box-shadow: 0 6px 20px rgba(30,70,43,.055); }
+.meal-recommendation .meal-section > h2 { margin-top: 5px; }
+.meal-recommendation .meal-type-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 4px 1px 10px; scrollbar-width: thin; }
+.meal-recommendation .meal-type-tabs button { flex: 1 0 auto; min-height: 42px; border-radius: 12px; }
+.meal-recommendation .meal-card { overflow: hidden; border-radius: 17px; }
+.meal-recommendation .meal-image { height: 185px; }
+.meal-recommendation .meal-content { padding: 15px; }
+.meal-recommendation .meal-content h3 { font-size: 16px; }
+.meal-recommendation .meal-content > button { min-height: 42px; }
+
+@media (min-width: 1100px) {
+  .meal-recommendation .meal-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .meal-recommendation .meal-welcome-banner { min-height: 130px; padding: 20px; }
+  .meal-recommendation .meal-welcome-art { flex-basis: 82px; width: 82px; height: 82px; font-size: 47px; }
+}
+@media (max-width: 600px) {
+  .meal-recommendation { padding: 12px; }
+  .meal-recommendation .meal-welcome-banner {
+    min-height: 0; margin-bottom: 13px; padding: 18px 16px; gap: 8px;
+    border-radius: 18px;
+  }
+  .meal-recommendation .meal-welcome-eyebrow { margin-bottom: 7px; font-size: 8px; letter-spacing: .8px; }
+  .meal-recommendation .meal-welcome-banner h1 { margin-bottom: 6px; font-size: 25px; }
+  .meal-recommendation .meal-welcome-banner p { max-width: 260px; font-size: 12px; }
+  .meal-recommendation .meal-welcome-banner small { max-width: 245px; font-size: 10px; }
+  .meal-recommendation .meal-welcome-art { flex-basis: 57px; width: 57px; height: 57px; border-radius: 17px; font-size: 34px; }
+  .meal-recommendation .open-community-recipes-btn { width: 100%; margin-bottom: 10px; }
+  .meal-recommendation .my-submissions-toolbar { margin-bottom: 10px; }
+  .meal-recommendation .my-submissions-toggle { width: 100%; }
+  .meal-recommendation .cooking-history-section { margin-bottom: 14px; padding: 13px; border-radius: 14px; }
+  .meal-recommendation .cooking-history-toolbar { align-items: center; }
+  .meal-recommendation .cooking-history-toolbar h2 { font-size: 14px; }
+  .meal-recommendation .cooking-history-toolbar p { max-width: 205px; font-size: 10px; }
+  .meal-recommendation .cooking-history-toggle { min-height: 36px; padding: 7px 10px; font-size: 11px; white-space: nowrap; }
+  .meal-recommendation .available-ingredients { margin-bottom: 15px; padding: 14px; }
+  .meal-recommendation .meal-section > h2 { font-size: 20px; }
+  .meal-recommendation .meal-section > p { font-size: 12px; }
+  .meal-recommendation .meal-section > div[style*="display: grid"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; padding: 12px !important;
+  }
+  .meal-recommendation .meal-grid { grid-template-columns: 1fr !important; gap: 13px; }
+  .meal-recommendation .meal-card { display: grid; grid-template-columns: 116px minmax(0,1fr); align-items: stretch; min-height: 142px; }
+  .meal-recommendation .meal-image { height: 100%; min-height: 142px; border-radius: 0; font-size: 40px; }
+  .meal-recommendation .meal-image img { min-height: 142px; object-fit: cover; }
+  .meal-recommendation .meal-content { padding: 11px; }
+  .meal-recommendation .meal-content h3 { margin-bottom: 5px; font-size: 14px; }
+  .meal-recommendation .meal-content > p { font-size: 10px; }
+  .meal-recommendation .meal-details { gap: 5px 8px; margin-top: 7px; font-size: 10px; }
+  .meal-recommendation .meal-content > button { min-height: 34px; margin-top: 6px; padding: 6px 7px; font-size: 10px; }
+  .meal-recommendation .meal-match-badge { bottom: 6px; left: 6px; min-height: 21px; padding: 3px 6px; font-size: 8px; }
+}
+@media (max-width: 380px) {
+  .meal-recommendation .meal-card { grid-template-columns: 98px minmax(0,1fr); }
+  .meal-recommendation .meal-content { padding: 9px; }
+  .meal-recommendation .meal-content h3 { font-size: 13px; }
+}
+
+
+
+
+
+
+
+
+/* Make the recipe image stretch from the top to the bottom of the full card */
+@media (max-width: 768px) {
+  .meal-recommendation .meal-card {
+    display: grid;
+    grid-template-columns: 116px minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .meal-recommendation .meal-image {
+    height: 100% !important;
+    min-height: 100% !important;
+    align-self: stretch;
+    overflow: hidden;
+  }
+
+  .meal-recommendation .meal-image img {
+    display: block;
+    width: 100%;
+    height: 100% !important;
+    min-height: 100% !important;
+    object-fit: cover;
+  }
+}
+/* =========================================================
+   MOBILE RECIPE CARD — FULL-WIDTH IMAGE ON TOP, DETAILS BELOW
+   Final override: desktop layout remains unchanged.
+   ========================================================= */
+@media (max-width: 768px) {
+  .meal-recommendation .meal-grid {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
+
+  .meal-recommendation .meal-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .meal-recommendation .meal-image {
+    display: block;
+    width: 100% !important;
+    height: 190px !important;
+    min-height: 190px !important;
+    max-height: 190px;
+    flex: 0 0 190px !important;
+    border-radius: 0 !important;
+    overflow: hidden;
+  }
+
+  .meal-recommendation .meal-image img {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: none;
+    object-fit: cover !important;
+    object-position: center;
+  }
+
+  .meal-recommendation .meal-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    padding: 14px !important;
+    box-sizing: border-box;
+  }
+
+  .meal-recommendation .meal-content h3,
+  .meal-recommendation .meal-content p,
+  .meal-recommendation .meal-details {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .meal-recommendation .meal-content > button {
+    max-width: 100%;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 380px) {
+  .meal-recommendation .meal-image {
+    height: 170px !important;
+    min-height: 170px !important;
+    max-height: 170px;
+    flex-basis: 170px !important;
+  }
+
+  .meal-recommendation .meal-content {
+    padding: 12px !important;
+  }
+}
+
+/* Center the plate-and-spoon fallback when a recipe has no uploaded image */
+.meal-recommendation .meal-image:not(:has(img)) {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  position: relative;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.meal-recommendation .meal-image:not(:has(img)) {
+  font-size: 52px;
+  line-height: 1;
+}
+
+.meal-recommendation .meal-image:not(:has(img)) .meal-match-badge {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+}
+
+
+/* =========================================================
+   RECIPE DETAILS — COMPACT MOBILE HEADER
+   Reduce the space above ingredients so more rows are visible.
+   Keep the modal title fixed and the recipe content scrollable.
+   ========================================================= */
+@media (max-width: 600px) {
+  .meal-recommendation .recipe-modal {
+    display: flex !important;
+    flex-direction: column !important;
+    max-height: calc(100dvh - 16px) !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .meal-recommendation .recipe-modal-header {
+    flex: 0 0 auto !important;
+    min-height: 48px !important;
+    padding: 9px 13px !important;
+  }
+
+  .meal-recommendation .recipe-hero {
+    flex: 0 0 auto !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 7px !important;
+    padding: 9px 12px 7px !important;
+  }
+
+  .meal-recommendation .recipe-hero-image {
+    height: clamp(92px, 25vw, 125px) !important;
+    min-height: 92px !important;
+    border-radius: 11px !important;
+  }
+
+  .meal-recommendation .recipe-hero-info {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    min-width: 0 !important;
+  }
+
+  .meal-recommendation .recipe-hero-info h2 {
+    margin: 0 !important;
+    font-size: 17px !important;
+    line-height: 1.2 !important;
+  }
+
+  .meal-recommendation .recipe-hero-info > p {
+    margin: 0 !important;
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+  }
+
+  .meal-recommendation .recipe-hero-meta {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+    margin: 2px 0 0 !important;
+  }
+
+  .meal-recommendation .recipe-hero-meta span {
+    padding: 4px 6px !important;
+    font-size: 9px !important;
+    line-height: 1.2 !important;
+  }
+
+  .meal-recommendation .recipe-hero-tags {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+    margin: 2px 0 0 !important;
+  }
+
+  .meal-recommendation .recipe-hero-tags span {
+    min-height: 22px !important;
+    padding: 3px 7px !important;
+    font-size: 9px !important;
+  }
+
+  .meal-recommendation .recipe-modal-body {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    padding: 7px 11px 12px !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .meal-recommendation .recipe-modal-body > div:first-child {
+    margin: 0 0 8px !important;
+    padding: 7px 9px !important;
+    min-height: 36px !important;
+  }
+
+  .meal-recommendation .recipe-availability-card {
+    margin: 0 0 9px !important;
+    padding: 8px 10px !important;
+  }
+
+  .meal-recommendation .recipe-section-title-row {
+    margin: 0 0 7px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .meal-recommendation .recipe-hero {
+    padding: 7px 10px 5px !important;
+    gap: 5px !important;
+  }
+
+  .meal-recommendation .recipe-hero-image {
+    height: 88px !important;
+    min-height: 88px !important;
+  }
+
+  .meal-recommendation .recipe-modal-body {
+    padding: 6px 9px 10px !important;
+  }
+}
+
+/* =========================================================
+   RECIPE DETAILS MODAL — RELIABLE INTERNAL SCROLLING FIX
+   Header and recipe summary stay in place; body scrolls.
+   ========================================================= */
+.meal-recommendation .recipe-modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  padding: 8px !important;
+  touch-action: pan-y !important;
+}
+
+.meal-recommendation .recipe-modal {
+  display: flex !important;
+  flex-direction: column !important;
+  width: min(100%, 900px) !important;
+  height: min(90dvh, 900px) !important;
+  max-height: calc(100dvh - 16px) !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.meal-recommendation .recipe-modal-header {
+  flex: 0 0 auto !important;
+}
+
+.meal-recommendation .recipe-hero {
+  flex: 0 0 auto !important;
+  min-height: 0 !important;
+}
+
+.meal-recommendation .recipe-modal-body {
+  display: block !important;
+  flex: 1 1 0% !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow-x: hidden !important;
+  overflow-y: scroll !important;
+  overscroll-behavior-y: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+  touch-action: pan-y !important;
+  scrollbar-width: thin !important;
+  padding-bottom: 30px !important;
+}
+
+.meal-recommendation .recipe-modal-body::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+.meal-recommendation .recipe-modal-body::-webkit-scrollbar-thumb {
+  border-radius: 10px !important;
+  background: #9fbea3 !important;
+}
+
+@media (max-width: 600px) {
+  .meal-recommendation .recipe-modal-overlay {
+    align-items: flex-start !important;
+    justify-content: center !important;
+    padding: 8px 5px !important;
+  }
+
+  .meal-recommendation .recipe-modal {
+    width: 100% !important;
+    height: calc(100dvh - 16px) !important;
+    max-height: calc(100dvh - 16px) !important;
+    margin: 0 !important;
+    border-radius: 14px !important;
+  }
+
+  .meal-recommendation .recipe-modal-header {
+    flex: 0 0 auto !important;
+    min-height: 48px !important;
+  }
+
+  .meal-recommendation .recipe-hero {
+    flex: 0 0 auto !important;
+    max-height: 43dvh !important;
+    overflow: visible !important;
+  }
+
+  .meal-recommendation .recipe-modal-body {
+    flex: 1 1 0% !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    overflow-y: scroll !important;
+    padding-bottom: max(30px, env(safe-area-inset-bottom)) !important;
+  }
+}
+
+
+
+/* Recipe Details: add scroll space at the end so the final cooking step
+   (for example, "Serve hot") can be scrolled fully above the bottom navigation.
+   No layout, sizing, colours, or card styles are changed. */
+@media (max-width: 600px) {
+  .meal-recommendation .recipe-modal-body {
+    padding-bottom: calc(110px + env(safe-area-inset-bottom)) !important;
+    scroll-padding-bottom: calc(110px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+.recipe-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(5px);
+}
+
+.recipe-modal {
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: auto;
+}
+
+
+
+/* =========================================================
+   EXPIRED INGREDIENT WARNING — TRUE SCREEN-CENTRED POSITION
+   This popup has its own class so Recipe Details mobile rules
+   (which intentionally align that modal to the top) cannot affect it.
+   ========================================================= */
+.meal-recommendation .recipe-modal-overlay.expired-cook-warning-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 12000 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding: 16px !important;
+  overflow: auto !important;
+  box-sizing: border-box !important;
+  background: rgba(15, 35, 22, 0.62) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.meal-recommendation .recipe-modal-overlay.expired-cook-warning-overlay > [role="alertdialog"] {
+  position: relative !important;
+  flex: 0 1 460px !important;
+  width: min(100%, 460px) !important;
+  max-width: 460px !important;
+  max-height: calc(100dvh - 32px) !important;
+  margin: auto !important;
+  overflow-y: auto !important;
+  box-sizing: border-box !important;
+  transform: none !important;
+}
+
+@media (max-width: 600px) {
+  .meal-recommendation .recipe-modal-overlay.expired-cook-warning-overlay {
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 12px !important;
+  }
+
+  .meal-recommendation .recipe-modal-overlay.expired-cook-warning-overlay > [role="alertdialog"] {
+    width: min(100%, 460px) !important;
+    max-height: calc(100dvh - 24px) !important;
+    margin: auto !important;
   }
 }

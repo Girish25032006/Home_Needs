@@ -1,150 +1,720 @@
-/* Consumption Tracking */
-
+/* Consumption Tracking — Home Needs */
 .consumption-tracking {
+  box-sizing: border-box;
   width: 100%;
-  max-width: none;
-  margin: 0;
+  min-width: 0;
+  padding: 24px;
+  color: #164b37;
+  background: linear-gradient(135deg, #f4fff1 0%, #e8f8e8 100%);
+  border-radius: 18px;
+}
+
+.consumption-tracking *,
+.consumption-tracking *::before,
+.consumption-tracking *::after {
+  box-sizing: border-box;
 }
 
 .consumption-tracking .page-title {
-  text-align: left;
-  margin-bottom: 30px;
+  margin: 0 0 26px;
+  text-align: center;
 }
 
 .consumption-tracking .page-title h1 {
-  font-size: 32px;
-  margin-bottom: 8px;
+  margin: 0;
+  color: #07583e;
+  font-size: clamp(24px, 2vw, 34px);
+  font-weight: 800;
+  line-height: 1.25;
 }
 
 .consumption-tracking .page-title p {
-  color: #607d8b;
-  font-size: 16px;
+  margin: 8px 0 0;
+  color: #6c8a7b;
+  font-size: 14px;
 }
 
-
-/* Consumption Form */
-
 .consumption-form {
-  width: 100%;
-  max-width: none;
-  margin: 0 0 35px;
-  background: white;
-  padding: 30px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px 16px;
+  padding: 28px;
+  margin-bottom: 24px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #d9eadc;
   border-radius: 18px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 8px 24px rgba(26, 91, 59, 0.06);
 }
 
 .consumption-form .form-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  gap: 9px;
+  min-width: 0;
 }
 
-.consumption-form label {
-  font-weight: bold;
-  margin-bottom: 8px;
+.consumption-form .form-group:first-child,
+.consumption-save-button {
+  grid-column: 1 / -1;
+}
+
+.consumption-form label,
+.year-selector label {
+  color: #315c49;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .consumption-form input,
-.consumption-form select {
+.consumption-form select,
+.year-selector select {
   width: 100%;
-  height: 48px;
-  padding: 13px;
-  border: 2px solid #e0e0e0;
+  min-width: 0;
+  min-height: 46px;
+  padding: 11px 13px;
+  color: #244d3c;
+  background: #fff;
+  border: 1px solid #d5e6d9;
   border-radius: 10px;
-  font-size: 16px;
+  font: inherit;
+  font-size: 14px;
   outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .consumption-form input:focus,
-.consumption-form select:focus {
-  border-color: #4caf50;
+.consumption-form select:focus,
+.year-selector select:focus {
+  border-color: #15975b;
+  box-shadow: 0 0 0 3px rgba(21, 151, 91, 0.12);
 }
 
-.consumption-form .form-row {
+.form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  grid-column: 1 / -1;
 }
 
 .consumption-save-button {
-  width: 100%;
-  height: 50px;
-  padding: 14px;
-  border: none;
-  border-radius: 12px;
-  background: #ff9800;
-  color: white;
-  font-size: 17px;
-  font-weight: bold;
+  min-height: 48px;
+  padding: 12px 18px;
+  color: #fff;
+  background: linear-gradient(100deg, #20aa63, #078148);
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 0 5px 12px rgba(0, 125, 67, 0.15);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 750;
   cursor: pointer;
+  transition: transform 0.15s, filter 0.15s;
 }
 
-.consumption-save-button:hover {
-  opacity: 0.9;
+.consumption-save-button:hover:not(:disabled) {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
 }
 
-
-/* Consumption History */
-
-.consumption-history {
-  width: 100%;
-  max-width: none;
-  margin: 0;
+.consumption-save-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
 }
 
-.consumption-history h2 {
-  margin-bottom: 18px;
-  font-size: 22px;
-}
-
-.consumption-card {
-  width: 100%;
-  min-height: 90px;
-  background: white;
-  padding: 20px 25px;
-  margin-bottom: 12px;
-  border-radius: 15px;
+.consumption-period-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-left: 5px solid #4caf50;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  gap: 18px;
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid #d1e9d7;
+  border-radius: 16px;
 }
 
-.consumption-card h3 {
-  margin: 0 0 6px;
-  font-size: 18px;
-}
-
-.consumption-card p {
-  color: #607d8b;
-  font-size: 14px;
+.consumption-period-header h2 {
   margin: 0;
+  color: #15543a;
+  font-size: 20px;
+  font-weight: 800;
 }
 
-.consumption-card strong {
-  color: #4caf50;
-  font-size: 18px;
+.consumption-period-header p {
+  margin: 7px 0 0;
+  color: #779283;
+  font-size: 13px;
 }
 
+.year-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
 
-/* Mobile */
+.year-selector select {
+  width: auto;
+  min-width: 100px;
+  min-height: 40px;
+  font-weight: 700;
+}
 
-@media (max-width: 650px) {
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.month-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  min-width: 0;
+  min-height: 112px;
+  padding: 14px 15px;
+  text-align: left;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #cfe8d5;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(28, 86, 56, 0.035);
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.month-card:not(.empty) {
+  border-color: #c6e6cf;
+}
+
+.month-card:hover {
+  border-color: #8dcc9f;
+  box-shadow: 0 6px 16px rgba(28, 86, 56, 0.08);
+  transform: translateY(-1px);
+}
+
+.month-card:focus-visible {
+  outline: 3px solid rgba(21, 151, 91, 0.2);
+  outline-offset: 2px;
+}
+
+.month-card-top,
+.month-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.month-count-badge {
+  display: inline-flex;
+  align-items: center;
+  max-width: 60%;
+  padding: 5px 8px;
+  overflow: hidden;
+  color: #147747;
+  background: #eaf8ee;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.month-card.empty .month-count-badge {
+  color: #668273;
+  background: #f0f5f1;
+}
+
+.month-total-label {
+  color: #789183;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.month-card-bottom {
+  margin-top: 18px;
+}
+
+.month-card h3 {
+  min-width: 0;
+  margin: 0;
+  color: #194e38;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.month-total-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #07864a;
+  font-size: 15px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.month-card-arrow {
+  color: #07864a;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.month-details {
+  padding: 22px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #d8eade;
+  border-radius: 18px;
+}
+
+.back-to-months {
+  margin-bottom: 18px;
+  color: #07864a;
+  font-size: 14px;
+}
+
+.month-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2eee5;
+}
+
+.month-detail-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.detail-icon {
+  display: grid;
+  width: 50px;
+  height: 50px;
+  flex: 0 0 50px;
+  place-items: center;
+  background: #e1f5e7;
+  border-radius: 14px;
+  font-size: 25px;
+}
+
+.month-detail-title h2 {
+  margin: 0;
+  color: #15543a;
+  font-size: 22px;
+}
+
+.month-detail-title p {
+  margin: 6px 0 0;
+  color: #779283;
+  font-size: 13px;
+}
+
+.month-summary {
+  display: flex;
+  gap: 12px;
+}
+
+.month-summary > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 120px;
+  padding: 13px;
+  background: #f0f8f2;
+  border-radius: 12px;
+}
+
+.month-summary span,
+.month-consumption-amount span {
+  color: #708c7c;
+  font-size: 11px;
+}
+
+.month-summary strong {
+  color: #07864a;
+  font-size: 17px;
+}
+
+.month-consumption-list {
+  display: grid;
+  gap: 12px;
+  padding-top: 18px;
+}
+
+.month-consumption-card {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #e0eee3;
+  border-radius: 13px;
+}
+
+.consumption-product-icon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  background: #e7f7eb;
+  border-radius: 12px;
+  font-size: 21px;
+}
+
+.month-consumption-info {
+  min-width: 0;
+}
+
+.month-consumption-info h3 {
+  margin: 0 0 6px;
+  color: #214d39;
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+
+.month-consumption-info p {
+  margin: 0;
+  color: #789183;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.month-consumption-amount {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+}
+
+.month-consumption-amount strong {
+  color: #07864a;
+  font-size: 15px;
+}
+
+.no-month-consumption {
+  padding: 38px 16px;
+  text-align: center;
+  color: #719080;
+}
+
+.no-month-consumption > div {
+  margin-bottom: 10px;
+  font-size: 34px;
+}
+
+.no-month-consumption h3 {
+  margin: 0 0 8px;
+  color: #24573f;
+}
+
+.no-month-consumption p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.month-detail-pdf-button {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 18px;
+  color: white;
+  background: #108b50;
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .consumption-tracking {
+    padding: 18px;
+  }
+
+  .month-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .month-detail-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .consumption-tracking {
+    width: 100%;
+    padding: 16px 12px 24px;
+    border-radius: 0;
+    overflow-x: clip;
+  }
+
+  .consumption-tracking .page-title {
+    margin: 8px 0 20px;
+    text-align: left;
+  }
+
+  .consumption-tracking .page-title h1 {
+    font-size: 25px;
+  }
+
+  .consumption-tracking .page-title p {
+    font-size: 13px;
+    line-height: 1.5;
+  }
 
   .consumption-form {
-    padding: 22px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 17px;
+    padding: 18px 14px;
+    margin-bottom: 18px;
+    border-radius: 16px;
   }
 
-  .consumption-form .form-row {
-    grid-template-columns: 1fr;
-    gap: 0;
+  .consumption-form .form-group:first-child,
+  .consumption-save-button,
+  .form-row {
+    grid-column: 1;
   }
 
-  .consumption-card {
-    flex-direction: column;
-    align-items: flex-start;
+  .form-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 10px;
+  }
+
+  .consumption-form .form-group {
+    gap: 8px;
+  }
+
+  .consumption-form label {
+    font-size: 13px;
+  }
+
+  .consumption-form input,
+  .consumption-form select {
+    min-height: 48px;
+    padding: 12px;
+    border-radius: 11px;
+    font-size: 15px;
+  }
+
+  .consumption-save-button {
+    position: static;
+    width: 100%;
+    min-height: 50px;
+    margin-top: 2px;
+    font-size: 15px;
+  }
+
+  .consumption-period-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+    padding: 17px 14px;
+    margin-bottom: 14px;
+    border-radius: 15px;
+  }
+
+  .consumption-period-header h2 {
+    font-size: 18px;
+    line-height: 1.35;
+  }
+
+  .consumption-period-header p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .year-selector {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .year-selector select {
+    min-width: 112px;
+    min-height: 42px;
+  }
+
+  .month-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 11px;
+  }
+
+  .month-card {
+    min-height: 106px;
+    padding: 13px 14px;
+    border-radius: 14px;
+  }
+
+  .month-card-bottom {
+    margin-top: 15px;
+  }
+
+  .month-card h3 {
+    font-size: 16px;
+  }
+
+  .month-total-value {
+    gap: 10px;
+    font-size: 15px;
+  }
+
+  .month-details {
+    padding: 15px 12px;
+    border-radius: 16px;
+  }
+
+  .month-detail-title h2 {
+    font-size: 20px;
+  }
+
+  .month-detail-title p {
+    line-height: 1.45;
+  }
+
+  .month-summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .month-summary > div {
+    min-width: 0;
+    padding: 12px 10px;
+  }
+
+  .month-summary span {
+    line-height: 1.4;
+  }
+
+  .month-consumption-card {
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 11px;
+    padding: 12px;
+  }
+
+  .consumption-product-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .month-consumption-info h3 {
+    font-size: 15px;
+  }
+
+  .month-consumption-info p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .month-consumption-amount {
+    grid-column: 2;
+    text-align: left;
+  }
+
+  .month-consumption-amount strong {
+    font-size: 14px;
+  }
+
+  .month-detail-pdf-button {
+    padding: 12px;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 360px) {
+  .form-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .month-card-details {
+    gap: 8px;
+  }
+}
+
+
+
+/* Fix year selector on mobile */
+@media (max-width: 600px) {
+  .consumption-period-header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .year-selector {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .year-selector label {
+    margin: 0;
+  }
+
+  .year-selector select {
+    width: 100px;
+    max-width: 100%;
+    min-height: 40px;
+  }
+}
+
+/* Confirmation dialog */
+.consumption-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(10, 35, 22, 0.58);
+  backdrop-filter: blur(4px);
+}
+
+.consumption-confirm-modal {
+  width: 100%;
+  max-width: 420px;
+  max-height: min(90vh, 680px);
+  overflow-y: auto;
+  padding: 24px;
+  color: #174b32;
+  background: #fff;
+  border: 1px solid #dcefe2;
+  border-radius: 18px;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.22);
+}
+
+@media (max-width: 600px) {
+  .consumption-confirm-overlay {
+    align-items: center;
+    padding: 14px;
+  }
+  .consumption-confirm-modal {
+    max-width: 100%;
+    padding: 19px 16px;
+    border-radius: 16px;
+  }
+}
+
+
+/* Searchable product field - follows Purchase Tracking autocomplete */
+.consumption-form input[list="consumption-product-suggestions"] {
+  cursor: text;
+}
+
+.consumption-form input[list="consumption-product-suggestions"]:disabled {
+  cursor: not-allowed;
+  background: #f3f7f3;
+}
+
+@media (max-width: 700px) {
+  .consumption-form input[list="consumption-product-suggestions"] {
+    min-height: 48px;
+    font-size: 14px;
   }
 }

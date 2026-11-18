@@ -161,7 +161,7 @@ if not app.secret_key:
 app.config.update(
     SESSION_COOKIE_NAME="session",
     SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SAMESITE="None",
     SESSION_COOKIE_SECURE=True,
     SESSION_COOKIE_PATH="/",
 )
@@ -206,9 +206,9 @@ def log_incoming_post_requests():
 # -----------------------------------
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SERVICE_ACCOUNT_PATH = os.path.join(
-    BASE_DIR,
-    "firebase-service-account.json"
+SERVICE_ACCOUNT_PATH = os.getenv(
+    "FIREBASE_CREDENTIALS_PATH",
+    os.path.join(BASE_DIR, "firebase-service-account.json")
 )
 
 if not firebase_admin._apps:

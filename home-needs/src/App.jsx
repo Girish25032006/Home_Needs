@@ -584,11 +584,16 @@ function App() {
 
 
 
-      console.error('Authentication error:', error)
+      console.error('Authentication error:', {
+        name: error.name,
+        message: error.message,
+        apiUrl: API_URL,
+        platform: window.location.origin
+      })
 
 
 
-      alert('Unable to connect to the server. Please check Flask.')
+      alert(`Connection failed: ${error.message}. API: ${API_URL}`)
 
 
 

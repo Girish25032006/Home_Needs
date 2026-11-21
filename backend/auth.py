@@ -6,7 +6,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import os
+import re
+import secrets
 import smtplib
+from datetime import datetime, timedelta
 from email.message import EmailMessage
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 
@@ -330,106 +333,271 @@ Home Needs Team
 
 
 # ============================================================
+# EMAIL VERIFICATION OTP
+# ============================================================
+
+OTP_LENGTH = 6
+OTP_EXPIRY_MINUTES = 5
+OTP_RESEND_COOLDOWN_SECONDS = 60
+OTP_MAX_ATTEMPTS = 5
+
+
+def send_verification_otp_email(email, otp):
+    """Send the signup verification code using the existing Gmail SMTP settings."""
+    if not SMTP_EMAIL or not SMTP_APP_PASSWORD:
+        raise RuntimeError("SMTP_EMAIL and SMTP_APP_PASSWORD are not configured.")
+
+    message = EmailMessage()
+    message["Subject"] = "Verify your Home Needs email"
+    message["From"] = SMTP_EMAIL
+    message["To"] = email
+    message.set_content(
+        f"Hello,\n\nYour Home Needs verification code is: {otp}\n\n"
+        f"This code expires in {OTP_EXPIRY_MINUTES} minutes. "
+        "You have a maximum of 5 attempts. If you did not create this account, ignore this email.\n\n"
+        "Regards,\nHome Needs Team"
+    )
+
+    html = f"""<!doctype html>
+<html><body style="font-family:Arial;background:#f2f8f3;padding:24px">
+<div style="max-width:520px;margin:auto;background:white;padding:32px;border-radius:16px;text-align:center">
+<h1 style="color:#07583c">Home Needs</h1>
+<h2>Verify your email</h2>
+<p>Your 6-digit verification code is:</p>
+<div style="font-size:32px;letter-spacing:8px;font-weight:bold;color:#159957;padding:18px">{otp}</div>
+<p>This code expires in {OTP_EXPIRY_MINUTES} minutes.</p>
+<small>If you did not request this code, you can ignore this email.</small>
+</div></body></html>"""
+    message.add_alternative(html, subtype="html")
+
+    with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=20) as server:
+        server.starttls()
+        server.login(SMTP_EMAIL, SMTP_APP_PASSWORD)
+        server.send_message(message)
+
+
+def create_and_send_otp(cursor, email):
+    """Store a hashed OTP and email the plaintext code."""
+    otp = f"{secrets.randbelow(10 ** OTP_LENGTH):0{OTP_LENGTH}d}"
+    otp_hash = generate_password_hash(otp)
+    now = datetime.now()
+    expires_at = now + timedelta(minutes=OTP_EXPIRY_MINUTES)
+
+    cursor.execute(
+        """
+        INSERT INTO email_verification_otps
+            (email, otp_hash, expires_at, attempts, last_sent_at)
+        VALUES (%s, %s, %s, 0, %s)
+        ON DUPLICATE KEY UPDATE
+            otp_hash = VALUES(otp_hash),
+            expires_at = VALUES(expires_at),
+            attempts = 0,
+            last_sent_at = VALUES(last_sent_at)
+        """,
+        (email, otp_hash, expires_at, now)
+    )
+    send_verification_otp_email(email, otp)
+
+
+
+
+# ============================================================
 # USER SIGNUP
 # ============================================================
 
 @auth_bp.route('/api/signup', methods=['POST'])
 def signup():
-
     data = request.get_json(silent=True) or {}
 
-    name = data.get('name', '').strip()
-    email = data.get('email', '').strip().lower()
-    phone = data.get('phone', '').strip()
+    name = str(data.get('name', '')).strip()
+    email = str(data.get('email', '')).strip().lower()
+    phone = str(data.get('phone', '')).strip()
     password = data.get('password', '')
 
     if not name or not email or not password:
-        return jsonify({
-            "message": "Name, email, and password are required."
-        }), 400
-
-    if len(password) < 8:
-        return jsonify({
-            "message": "Password must contain at least 8 characters."
-        }), 400
+        return jsonify({"message": "Name, email, and password are required."}), 400
+    if len(name) > 100 or len(email) > 150 or len(phone) > 20:
+        return jsonify({"message": "One or more fields exceed the allowed length."}), 400
+    if not isinstance(password, str) or len(password) < 8:
+        return jsonify({"message": "Password must contain at least 8 characters."}), 400
+    if not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", email):
+        return jsonify({"message": "Please enter a valid email address."}), 400
 
     connection = None
     cursor = None
-
     try:
-
         connection = get_connection()
         cursor = connection.cursor(dictionary=True)
 
         cursor.execute(
-            """
-            SELECT id
-            FROM users
-            WHERE email = %s
-            LIMIT 1
-            """,
+            "SELECT id, email_verified FROM users WHERE email=%s LIMIT 1",
             (email,)
         )
-
-        if cursor.fetchone():
-
-            return jsonify({
-                "message": "An account with this email already exists."
-            }), 409
+        existing = cursor.fetchone()
+        if existing:
+            if not existing.get('email_verified'):
+                # Re-open the OTP screen for an earlier unfinished signup.
+                # Do not create a duplicate user or silently send another code.
+                return jsonify({
+                    "message": "This email already has a pending signup. Enter the code sent earlier or resend it when the cooldown ends.",
+                    "requiresVerification": True,
+                    "email": email
+                }), 200
+            return jsonify({"message": "An account with this email already exists."}), 409
 
         password_hash = generate_password_hash(password)
-
         cursor.execute(
             """
             INSERT INTO users
-                (name, email, phone, password_hash)
-            VALUES
-                (%s, %s, %s, %s)
+                (name, email, phone, password_hash, email_verified, role)
+            VALUES (%s, %s, %s, %s, 0, 'user')
             """,
-            (
-                name,
-                email,
-                phone or None,
-                password_hash
-            )
+            (name, email, phone or None, password_hash)
         )
 
+        create_and_send_otp(cursor, email)
         connection.commit()
-
-        user_id = cursor.lastrowid
-
         session.clear()
-        session['user_id'] = user_id
 
         return jsonify({
-            "message": "Account created successfully.",
-            "user": {
-                "id": user_id,
-                "name": name,
-                "email": email,
-                "role": "user"
-            }
+            "message": "Verification code sent to your email.",
+            "requiresVerification": True,
+            "email": email
         }), 201
 
     except Exception as e:
-
         if connection:
             connection.rollback()
-
-        print(
-            "Signup error:",
-            str(e)
-        )
-
+        print("Signup error:", str(e))
         return jsonify({
-            "message": "Unable to create account. Please try again."
+            "message": "Unable to start signup or send the verification email. Please try again."
         }), 500
-
     finally:
-
         if cursor:
             cursor.close()
+        if connection:
+            connection.close()
 
+
+@auth_bp.route('/api/verify-email', methods=['POST'])
+def verify_email():
+    data = request.get_json(silent=True) or {}
+    email = str(data.get('email', '')).strip().lower()
+    otp = str(data.get('otp', '')).strip()
+
+    if not email or not re.fullmatch(r"\d{6}", otp):
+        return jsonify({"message": "Enter your email and the 6-digit verification code."}), 400
+
+    connection = None
+    cursor = None
+    try:
+        connection = get_connection()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute(
+            "SELECT id, email_verified FROM users WHERE email=%s LIMIT 1",
+            (email,)
+        )
+        user = cursor.fetchone()
+        if not user:
+            return jsonify({"message": "Signup not found. Please create your account again."}), 404
+        if user['email_verified']:
+            return jsonify({"message": "Email is already verified. Please sign in."}), 200
+
+        cursor.execute(
+            "SELECT otp_hash, expires_at, attempts FROM email_verification_otps WHERE email=%s LIMIT 1",
+            (email,)
+        )
+        record = cursor.fetchone()
+        if not record:
+            return jsonify({"message": "Verification code not found. Please request a new code."}), 400
+        if int(record['attempts']) >= OTP_MAX_ATTEMPTS:
+            return jsonify({"message": "Too many incorrect attempts. Please request a new code."}), 429
+        if record['expires_at'] <= datetime.now():
+            return jsonify({"message": "Verification code expired. Please request a new code."}), 400
+
+        if not check_password_hash(record['otp_hash'], otp):
+            cursor.execute(
+                "UPDATE email_verification_otps SET attempts=attempts+1 WHERE email=%s",
+                (email,)
+            )
+            connection.commit()
+            remaining = max(0, OTP_MAX_ATTEMPTS - int(record['attempts']) - 1)
+            return jsonify({
+                "message": f"Incorrect code. {remaining} attempt(s) remaining."
+            }), 400
+
+        cursor.execute(
+            "UPDATE users SET email_verified=1, email_verified_at=%s WHERE id=%s",
+            (datetime.now(), user['id'])
+        )
+        cursor.execute("DELETE FROM email_verification_otps WHERE email=%s", (email,))
+        connection.commit()
+        session.clear()
+
+        return jsonify({"message": "Email verified successfully. You can now sign in."}), 200
+
+    except Exception as e:
+        if connection:
+            connection.rollback()
+        print("Email verification error:", str(e))
+        return jsonify({"message": "Unable to verify your email. Please try again."}), 500
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+
+@auth_bp.route('/api/resend-verification-otp', methods=['POST'])
+def resend_verification_otp():
+    data = request.get_json(silent=True) or {}
+    email = str(data.get('email', '')).strip().lower()
+    if not email:
+        return jsonify({"message": "Email address is required."}), 400
+
+    connection = None
+    cursor = None
+    try:
+        connection = get_connection()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute(
+            "SELECT id, email_verified FROM users WHERE email=%s LIMIT 1",
+            (email,)
+        )
+        user = cursor.fetchone()
+        if not user:
+            return jsonify({"message": "Signup not found. Please create your account first."}), 404
+        if user['email_verified']:
+            return jsonify({"message": "This email is already verified. Please sign in."}), 409
+
+        cursor.execute(
+            "SELECT last_sent_at FROM email_verification_otps WHERE email=%s LIMIT 1",
+            (email,)
+        )
+        previous = cursor.fetchone()
+        if previous:
+            elapsed = (datetime.now() - previous['last_sent_at']).total_seconds()
+            remaining = OTP_RESEND_COOLDOWN_SECONDS - int(elapsed)
+            if remaining > 0:
+                return jsonify({
+                    "message": f"Please wait {remaining} seconds before requesting another code.",
+                    "retryAfter": remaining
+                }), 429
+
+        create_and_send_otp(cursor, email)
+        connection.commit()
+        return jsonify({"message": "A new verification code has been sent."}), 200
+
+    except Exception as e:
+        if connection:
+            connection.rollback()
+        print("Resend OTP error:", str(e))
+        return jsonify({"message": "Unable to resend the verification code. Please try again."}), 500
+    finally:
+        if cursor:
+            cursor.close()
         if connection:
             connection.close()
 
@@ -489,6 +657,11 @@ def login():
             return jsonify({
                 "message": "Invalid email or password."
             }), 401
+
+        if not user.get('email_verified', 1):
+            return jsonify({
+                "message": "Please verify your email before signing in."
+            }), 403
 
         session.clear()
         session['user_id'] = user['id']
